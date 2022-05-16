@@ -19,15 +19,14 @@ class AssociationController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|min:3|max:255|alphanumeric',
-            'adress' => 'required',
-            'adress_public' => '',
-            'website' => 'alpha',
-            'facebook' => 'alpha',
-            'email' => 'required', 
-            'tel' => 'numeric',
-            'description' => '',
-            'committee_id' => 'required|numeric',
+            'name' => 'required|min:3|max:255|alpha_num',
+            'adress' => 'required|alpha_num',
+            'website' => 'alpha_dash',
+            'facebook' => 'alpha_dash',
+            'email' => 'required|email:rfc', 
+            'tel' => 'integer',
+            'description' => 'alpha_num',
+            'committee_id' => 'required|integer',
         ]);
 
         $association = [
@@ -45,11 +44,12 @@ class AssociationController extends Controller
 
         $new_association = Association::create($association);
 
-        $img = $request->file('photos');
+        /*
+        $photos = $request->file('photos');
 
-        if ($img !== null){
+        if ($photos !== null){
 
-            $destination_path = public_path('/image/card-' . $id.'/'); // upload path
+            $destination_path = public_path('/image/association-' . $new_association->id() .'/'); // upload path
 
             // merda que eu fiz pra funcionar em localhost
                 $dest_array = explode('/', $destination_path);
@@ -59,8 +59,8 @@ class AssociationController extends Controller
             // fim da merda que eu fiz pra funcionar em localhost
                 
             // Upload Orginal Image
-            $cover_img = date('YmdHis') . "." . $img->getClientOriginalExtension();
-            $img->move($destination_path, $cover_img);
+            $photos_img = date('YmdHis') . "." . $photos->getClientOriginalExtension();
+            $photos->move($destination_path, $photos_img);
 
             // Save In Database
         }
@@ -71,7 +71,7 @@ class AssociationController extends Controller
             'url' => $new_destination,
         ];
 
-        $new_association_photos = AssociationPhoto::create($association_photos)
+        $new_association_photos = AssociationPhoto::create($association_photos); */
 
         return $new_association;
 
@@ -79,7 +79,9 @@ class AssociationController extends Controller
 
     public function show($id)
     {
-        //
+        $association = Association::findOrFail($id);
+
+        return $association;
     }
 
     public function showAll($committee_id)
@@ -91,11 +93,36 @@ class AssociationController extends Controller
 
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name' => 'required|min:3|max:255|alpha_num',
+            'adress' => 'required|alpha_num',
+            'website' => 'alpha_dash',
+            'facebook' => 'alpha_dash',
+            'email' => 'required|email:rfc', 
+            'tel' => 'integer',
+            'description' => 'alpha_num',
+            'committee_id' => 'required|integer',
+        ]);
+
+        $association = Association::findOrFail($id);
+
+        $association->name = $request->input('name');
+        $association->adress = $request->input('adress');
+        $association->adress_public = $request->input('adress_public');
+        $association->website = $request->input('website');
+        $association->facebook = $request->input('facebook');
+        $association->email = $request->input('email');
+        $association->tel = $request->input('tel');
+        $association->description = $request->input('description');
+
+        $association->save();
     }
 
     public function destroy($id)
     {
-        //
+        $association = Association::findOrFail($id);
+        $association->delete();
+
+        return "L'association a été bien supprimer.";
     }
 }
