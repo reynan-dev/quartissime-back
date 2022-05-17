@@ -30,4 +30,8 @@ class Committee extends Model
         return $this->hasMany(CommitteeUser::class);
     }
 
+    public function associations(): HasMany {
+        return $this->hasMany(Association::class);
+    }
+
 }

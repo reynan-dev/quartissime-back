@@ -15,8 +15,7 @@ class CommitteeController extends Controller
      */
     public function index()
     {
-      
-
+        //
     }
 
     /**
@@ -40,6 +39,7 @@ class CommitteeController extends Controller
     {
         $committee_user = Committee::findOrFail($id);
         return view('CommitteeUsers', compact('committee_user', 'id'));
+        //
     }
 
     /**
