@@ -23,6 +23,8 @@ class CreateAssociationsTable extends Migration
             $table->text('email');
             $table->integer('tel')->nullable();
             $table->longText('description')->nullable();
+            $table->float('latitude');
+            $table->float('longitude');
             $table->timestamps();
         });
     }

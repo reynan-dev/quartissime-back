@@ -24,6 +24,8 @@ class CreateCommitteesTable extends Migration
             $table->integer('tel')->nullable();
             $table->text('president_name');
             $table->longText('description')->nullable();
+            $table->float('latitude');
+            $table->float('longitude');
             $table->timestamps();
         });
     }
