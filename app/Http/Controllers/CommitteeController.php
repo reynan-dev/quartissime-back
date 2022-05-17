@@ -15,7 +15,8 @@ class CommitteeController extends Controller
      */
     public function index()
     {
-        //
+        $committee_details = Committee::all();
+        return compact('committee_details');
     }
 
     /**
