@@ -23,6 +23,7 @@ class Association extends Model
         'tel',
         'description',
     ];
+    protected $table = "association";
 
     use HasFactory;
 

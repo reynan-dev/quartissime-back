@@ -10,10 +10,10 @@ use App\Models\Committee;
 
 class AssociationController extends Controller
 {
-
     public function index()
     {
-        //
+        $association_details = Association::all();
+        return compact('association_details');
     }
 
     public function store(Request $request)

@@ -66,3 +66,4 @@ class CommitteeController extends Controller
         //
     }
 }
+// Stéphane Dumas-Miton
