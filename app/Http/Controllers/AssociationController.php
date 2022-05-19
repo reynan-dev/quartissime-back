@@ -18,6 +18,7 @@ class AssociationController extends Controller
 
     public function store(Request $request)
     {
+        
         $request->validate([
             'name' => 'required|min:3|max:255|alpha_num',
             'adress' => 'required|alpha_num',
@@ -26,19 +27,19 @@ class AssociationController extends Controller
             'email' => 'required|email:rfc', 
             'tel' => 'integer',
             'description' => 'alpha_num',
-            'committee_id' => 'required|integer',
+            // 'committee_id' => 'required|integer',
         ]);
 
         $association = [
             'name' => $request->input('name'),
             'adress' => $request->input('adress'),
-            'adress_public' => $request->input('adress_public'),
+            // 'adress_public' => $request->input('adress_public'),
             'website' => $request->input('website'),
             'facebook' => $request->input('facebook'),
             'email' => $request->input('email'),
             'tel' => $request->input('tel'),
             'description' => $request->input('description'),
-            'committee_id' => $request->input('committee_id'),
+            // 'committee_id' => $request->input('committee_id'),
         ];
 
 
@@ -72,7 +73,7 @@ class AssociationController extends Controller
         ];
 
         $new_association_photos = AssociationPhoto::create($association_photos); */
-
+        
         return $new_association;
 
     }
