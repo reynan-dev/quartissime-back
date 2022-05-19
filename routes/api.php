@@ -27,9 +27,7 @@ Route::apiResources([
     '/committees' => CommitteeController::class,
 ]);
 
-Route::post(
-    '/register',
-    function (Request $request) {
-        return response(205);
-    }
-);
+// Route::post(
+//     '/associations', [AssociationController::class, 'store']
+// );
+

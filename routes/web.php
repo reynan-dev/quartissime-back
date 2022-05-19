@@ -27,4 +27,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
+Route::post(
+    '/associations', [AssociationController::class, 'store']
+);
+ 
