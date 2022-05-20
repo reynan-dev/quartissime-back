@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AssociationController;
 use App\Http\Controllers\CommitteeController;
 use App\Http\Controllers\EventController;
-
+use App\Http\Controllers\RiverainsController;
 
 
 Route::get('/', function () {
@@ -27,16 +27,16 @@ Route::apiResources([
     '/committees' => CommitteeController::class,
 ]);
 
-// Route::post(
-//     '/associations', [AssociationController::class, 'store']
-// );
-
 Route::post(
-    '/register',
-    function (Request $request) {
-        return response(205);
-    }
+    '/mails', [RiverainsController::class, 'store']
 );
+
+// Route::post(
+//     '/register',
+//     function (Request $request) {
+//         return response(205);
+//     }
+// );
 
 Route::prefix('auth')->group(function() {
     Route::post('/login/admin', [\App\Http\Controllers\Auth\Api\LoginController::class, 'loginAdmin']);
