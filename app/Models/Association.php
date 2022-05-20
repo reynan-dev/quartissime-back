@@ -12,18 +12,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Association extends Model
 {
+    protected $table = "association";
+    protected $guarded =['id'];
 
-    protected $fillable = [
-        'name',
-        'adress',
-        'adress_public',
-        'website',
-        'facebook',
-        'email',
-        'tel',
-        'description',
-    ];
-    public $table = "association";
+   
 
     use HasFactory;
 
