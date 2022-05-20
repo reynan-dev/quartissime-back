@@ -46,9 +46,10 @@ class AssociationController extends Controller
         ];
 
 
-        Association::create($association);
+        $newAssociation=Association::create($association);
 
-        return response()->json(["message" => "ok"]);
+        return response()->json(["message" => $newAssociation]);
+     
 
         /*
         $photos = $request->file('photos');
