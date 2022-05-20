@@ -31,3 +31,17 @@ Route::apiResources([
 //     '/associations', [AssociationController::class, 'store']
 // );
 
+Route::post(
+    '/register',
+    function (Request $request) {
+        return response(205);
+    }
+);
+
+Route::prefix('auth')->group(function() {
+    Route::post('/login/admin', [\App\Http\Controllers\Auth\Api\LoginController::class, 'loginAdmin']);
+    Route::post('/login/comite', [\App\Http\Controllers\Auth\Api\LoginController::class, 'loginComite']);
+    Route::post('/logout', [\App\Http\Controllers\Auth\Api\LoginController::class, 'logout'])->middleware('auth:sanctum');
+  /*  Route::post('/get/token', [\App\Http\Controllers\Auth\Api\LoginController::class, 'getToken']); */
+    Route::post('/register', [\App\Http\Controllers\Auth\Api\RegisterController::class, 'register']);
+});
