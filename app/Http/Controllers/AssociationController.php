@@ -18,32 +18,55 @@ class AssociationController extends Controller
 
     public function store(Request $request)
     {
-        
-        $request->validate([
-            'name' => 'required|min:3|max:255|alpha_num',
-            'adress' => 'required|alpha_num',
-            'website' => 'alpha_dash',
-            'facebook' => 'alpha_dash',
-            'email' => 'required|email:rfc', 
-            'tel' => 'integer',
-            'description' => 'alpha_num',
-            // 'committee_id' => 'required|integer',
-        ]);
+        // $nom = $request->nom;
+        // return response()->json([
+        //     "message" => $nom,
+        // ]);
+
+        // $request->validate([
+        //     'name' => 'required|min:3|max:255|alpha_num',
+        //     'adress' => 'required|alpha_num',
+        //     'website' => 'alpha_dash',
+        //     'facebook' => 'alpha_dash',
+        //     'email' => 'required|email:rfc',
+        //     'tel' => 'integer',
+        //     'description' => 'alpha_num',
+        //     // 'committee_id' => 'required|integer',
+        // ]);
+        // $nom = $request->nom;
+        // $email = $request->email;
+        // $adresse = $request->adresse;
+
+        // return response(205);
+        // Association::create([
+        //     "name" => $nom,
+        //     "adress" => $adresse,
+
+        //     "email" => $email,
+
+
+
+
+        // ]);
 
         $association = [
-            'name' => $request->input('name'),
-            'adress' => $request->input('adress'),
-            // 'adress_public' => $request->input('adress_public'),
-            'website' => $request->input('website'),
-            'facebook' => $request->input('facebook'),
-            'email' => $request->input('email'),
-            'tel' => $request->input('tel'),
-            'description' => $request->input('description'),
-            // 'committee_id' => $request->input('committee_id'),
+            'name' => $request->nom,
+            'adress' => $request->adresse,
+            'adress_public' => $request->adressePublique,
+            'website' => $request->website,
+            'facebook' => $request->facebook,
+            'email' => $request->email,
+            'tel' => $request->tel,
+            'description' => $request->description,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
+            'committee_id' => $request->commiteId,
         ];
 
 
-        $new_association = Association::create($association);
+        Association::create($association);
+
+        return response()->json(["message" => "ok"]);
 
         /*
         $photos = $request->file('photos');
@@ -73,9 +96,6 @@ class AssociationController extends Controller
         ];
 
         $new_association_photos = AssociationPhoto::create($association_photos); */
-        
-        return $new_association;
-
     }
 
     public function show($id)
@@ -99,7 +119,7 @@ class AssociationController extends Controller
             'adress' => 'required|alpha_num',
             'website' => 'alpha_dash',
             'facebook' => 'alpha_dash',
-            'email' => 'required|email:rfc', 
+            'email' => 'required|email:rfc',
             'tel' => 'integer',
             'description' => 'alpha_num',
             'committee_id' => 'required|integer',
