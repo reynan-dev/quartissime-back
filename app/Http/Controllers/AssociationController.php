@@ -18,10 +18,7 @@ class AssociationController extends Controller
 
     public function store(Request $request)
     {
-        // $nom = $request->nom;
-        // return response()->json([
-        //     "message" => $nom,
-        // ]);
+
 
         // $request->validate([
         //     'name' => 'required|min:3|max:255|alpha_num',
@@ -31,22 +28,7 @@ class AssociationController extends Controller
         //     'email' => 'required|email:rfc',
         //     'tel' => 'integer',
         //     'description' => 'alpha_num',
-        //     // 'committee_id' => 'required|integer',
-        // ]);
-        // $nom = $request->nom;
-        // $email = $request->email;
-        // $adresse = $request->adresse;
-
-        // return response(205);
-        // Association::create([
-        //     "name" => $nom,
-        //     "adress" => $adresse,
-
-        //     "email" => $email,
-
-
-
-
+        //     'committee_id' => 'required|integer',
         // ]);
 
         $association = [
@@ -60,7 +42,7 @@ class AssociationController extends Controller
             'description' => $request->description,
             'latitude' => $request->latitude,
             'longitude' => $request->longitude,
-            'committee_id' => $request->commiteId,
+            'committee_id' => $request->comiteId,
         ];
 
 

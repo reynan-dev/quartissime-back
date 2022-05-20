@@ -25,6 +25,7 @@ class CreateAssociationsTable extends Migration
             $table->longText('description')->nullable();
             $table->float('latitude');
             $table->float('longitude');
+            $table->integer('committee_id');
             $table->timestamps();
         });
     }
