@@ -56,7 +56,7 @@ class LoginController extends Controller
         auth()->user()->tokens()->delete();
 
         return response()->json([
-            [], 204r
+            [], 204
         ]);
     }
 /*
