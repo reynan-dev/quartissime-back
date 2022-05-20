@@ -11,7 +11,12 @@ class RegisterController extends Controller
     public function registerAdmin(Request $request, User $user)
     {
 
-        // Validar request (A FAIRE)
+        $request->validate([
+            'name' => 'required|alpha|min:3|max:255',
+            'email' => 'required|email:rfc,dns',
+            'password' => 'required|alpha_dash|min:6',
+            'administrator' => 'min:1|max:1|numeric'
+        ]);
 
         $userData = $request->only('name', 'email', 'password', 'administrator');
         $userData['password'] = bcrypt($userData['password']);
@@ -19,16 +24,19 @@ class RegisterController extends Controller
         if (!$user = $user->create($userData)) abort(500, 'Erro para criar usuario');
 
         return response()->json([
-            'data' => [
-                'user' => $user
-            ]
+            'user' => $user
         ]);
     }
 
     public function registerComite(Request $request, User $user)
     {
 
-        // Validar request (A FAIRE)
+        $request->validate([
+            'name' => 'required|alpha|min:3|max:255',
+            'email' => 'required|email:rfc,dns',
+            'password' => 'required|alpha_dash|min:6',
+            'identifiant' => 'required|alpha_num|min:3|max:255',
+        ]);
 
         $userData = $request->only('name', 'email', 'password', 'identifiant');
         $userData['password'] = bcrypt($userData['password']);
@@ -36,9 +44,7 @@ class RegisterController extends Controller
         if (!$user = $user->create($userData)) abort(500, 'Erro para criar usuario');
 
         return response()->json([
-            'data' => [
-                'user' => $user
-            ]
+            'user' => $user
         ]);
     }
 }

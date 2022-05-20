@@ -11,6 +11,10 @@ class LoginController extends Controller
     {
 
         // Validar request (A FAIRE)
+        $request->validate([
+            'email' => 'required|email:rfc,dns',
+            'password'=> 'required|alpha_dash|min:6',
+        ]);
 
         $credentials = $request->only('email', 'password');
         
@@ -21,16 +25,17 @@ class LoginController extends Controller
         $token = auth()->user()->createToken('auth_token');
 
         return response()->json([
-            'data' => [
                 'token' => $token->plainTextToken
-            ]
         ]);
     }
 
     public function loginComite(Request $request)
     {
 
-        // Validar request (A FAIRE)
+        $request->validate([
+            'identifiant' => 'required|alpha_num|min:3|max:255',
+            'password'=> 'required|alpha_dash|min:6|max:255',
+        ]);
 
         $credentials = $request->only('identifiant', 'password');
 
@@ -51,7 +56,7 @@ class LoginController extends Controller
         auth()->user()->tokens()->delete();
 
         return response()->json([
-            [], 204
+            [], 204r
         ]);
     }
 /*
