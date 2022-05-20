@@ -6,6 +6,7 @@ use App\Http\Controllers\AssociationController;
 use App\Http\Controllers\CommitteeController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\RiverainsController;
+use App\Http\Controllers\HomeController;
 
 
 Route::get('/', function () {
@@ -26,7 +27,7 @@ Route::apiResources([
     '/associations' => AssociationController::class,
     '/committees' => CommitteeController::class,
 ]);
-Route::get('/committees/nearest', [CommitteeController::class, "calcultop3assocomite"]);
+Route::get('/committees/nearest', [HomeController::class, "calcultop3assocomite"]);
 
 Route::post(
     '/mails',

@@ -33,11 +33,11 @@ class HomeController extends Controller
     public function calcultop3assocomite(Request $request)
     {
         $request->validate([
-            'lon' => 'required|numeric',
-            'lat' => 'required|numeric',
+            'longitude' => 'required|numeric',
+            'latitude' => 'required|numeric',
         ]);
-        $lon = $request->input("lon");
-        $lat = $request->input("lat");
+        $lon = $request->input("longitude");
+        $lat = $request->input("latitude");
 
         $haversine = "(6371 * acos(cos(radians($lat)) 
         * cos(radians(committees.latitude)) 
@@ -47,10 +47,10 @@ class HomeController extends Controller
         * sin(radians(committees.latitude)))";
 
         $committees =  DB::table('committees')
-            ->select("*") //pick the columns you want here.
+        ->select("*") //pick the columns you want here.
             ->selectRaw("{$haversine} AS distance")
             ->orderBy('distance')
-            ->limit(3)
+            ->limit(4)
             ->get();
 
         return response()->json(['committees' => $committees]);
