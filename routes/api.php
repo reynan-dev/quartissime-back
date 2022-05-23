@@ -24,6 +24,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/committees/nearest', [HomeController::class, "calcultop3assocomite"]);
 
+Route::get('/associations/findByComittee', [AssociationController::class, "findByComittee"]);
+
 
 Route::apiResources([
     '/events' => EventController::class,
@@ -36,12 +38,7 @@ Route::post(
     [RiverainsController::class, 'store']
 );
 
-// Route::post(
-//     '/register',
-//     function (Request $request) {
-//         return response(205);
-//     }
-// );
+
 
 Route::prefix('auth')->group(function () {
     Route::post('/login/admin', [\App\Http\Controllers\Auth\Api\LoginController::class, 'loginAdmin']);

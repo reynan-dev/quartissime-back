@@ -11,6 +11,8 @@ class RiverainsController extends Controller
     public function store(request $request)
     {
         // return response()->json($request->email);
+    
+        
         Mail::to($request->email)->send(new Riverains());
 
         // return redirect()
