@@ -22,12 +22,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('/committees/nearest', [HomeController::class, "calcultop3assocomite"]);
+
+
 Route::apiResources([
     '/events' => EventController::class,
     '/associations' => AssociationController::class,
     '/committees' => CommitteeController::class,
 ]);
-Route::get('/committees/nearest', [HomeController::class, "calcultop3assocomite"]);
 
 Route::post(
     '/mails',
