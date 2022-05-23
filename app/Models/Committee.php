@@ -33,5 +33,5 @@ class Committee extends Model
     public function associations(): HasMany {
         return $this->hasMany(Association::class);
     }
-
+    
 }
