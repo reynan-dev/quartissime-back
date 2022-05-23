@@ -16,14 +16,11 @@ class Comite
         }
 
         if (Auth::user()->administrator === 0) {
-          //  $link = CommitteeUser::with('committee')->get()->where("user_id", Auth::user()->id);
-          //  $committee_id = $link->committee_id;
             return $next($request);
-            ;
         }
 
         if (Auth::user()->administrator === 1) {
-            return redirect()->route('dashboard.index');
+            return redirect()->route('dashboard.index', $request);
         }
         
     }

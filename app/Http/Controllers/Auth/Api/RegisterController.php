@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
@@ -28,10 +29,10 @@ class RegisterController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->messages(), 406);
         }
-        $userData = $request->only('name', 'email', 'password', 'identifiant', 'administrator');
-        $userData['password'] = bcrypt($userData['password']);
+        $data = $request->only('name', 'email', 'password', 'identifiant', 'administrator');
+        $data['password'] = Hash::make($data['password']);
 
-        if (!$user = $user->create($userData)) {
+        if (!$user = $user->create($data)) {
             return response()->json(['message' => "Error au créer l'utilisateur."], 500);
         };
 

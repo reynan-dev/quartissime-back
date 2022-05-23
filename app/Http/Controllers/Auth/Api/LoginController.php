@@ -20,7 +20,7 @@ class LoginController extends Controller
                     'password' => 'required|alpha_dash|min:8',
                 ],
                 [
-                    'identifiant' => 'Email invalide, il fault mettre un email valide.',
+                    'identifiant' => 'Identifiant invalide, il fault mettre un identifiant valide.',
                     'password' => 'Le mot de passe doit contenir des chiffres, des lettres et des caractères spéciaux.'
                 ]
             );

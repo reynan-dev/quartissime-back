@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Models\Association;
 use App\Models\Event;
-
+use App\Models\User;
+use Illuminate\Support\Facades\Validator;
 
 class EventController extends Controller
 {
@@ -14,86 +15,127 @@ class EventController extends Controller
     {
         $events = Event::all();
 
-        return $events;
-    }
-
-    public function create() {
-    
-        //$associations = Association::with('committee')->get('id', $id);
-        return view('events.create', compact('associations'));
-
-    }
-
-    public function store(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|min:3|max:255|alpha_num',
-            'adress' => 'required|alpha_num',
-            'date' => 'required|date',
-            'link' => 'alpha_dash',
-            'description' => 'alpha_num',
-            'association_id' => 'required|integer',
+        return response()->json([
+            'events' => $events
         ]);
-
-        $event = [
-            'name' => $request->input('name'),
-            'adress' => $request->input('adress'),
-            'date' => $request->input('date'),
-            'link' => $request->input('link'),
-            'description' => $request->input('description'),
-            'association_id' => $request->input('association_id'),
-        ];
-
-        $new_event = Event::create($event);
-
-        return $new_event;
     }
-
 
     public function show($id)
     {
         $event = Event::findOrFail($id);
-        
-        return $event;
+
+        return response()->json([
+            'event' => $event
+        ]);
     }
 
-    public function showAll($association_id)
+    public function store(Request $request)
     {
-        $events = Association::with('events')->findMany($association_id, 'association_id');
 
-        return $events;
+        $array = (array) $request->all();
+
+        $validator = Validator::make(
+            $array,
+            [
+                'name' => 'required|string|regex:/^[A-Za-z0-9_]+$/',
+                'adress' => 'required|string|regex:/^[A-Za-z0-9_]+$/',
+                'date' => 'required|date|after:tomorrow',
+                'link' => 'url',
+                'description' => 'alpha_num',
+            ],
+            [
+                'name' => 'Le nom est invalide.',
+                'adress' => 'Le adress est invalide.',
+                'date' => 'La date est invalide.',
+                'link' => "Link est invalide.",
+                'description' => "La description est invalide.",
+            ]
+        );
+
+        if ($validator->fails()) {
+            return response()->json($validator->messages(), 406);
+        } else {
+
+            $new_event = [
+                'name' => $request->name,
+                'adress' => $request->adress,
+                'date' => $request->date,
+                'link' => $request->link,
+                'description' => $request->description,
+                'association_id' => $request->association_id,
+                'committee_id' => $request->committee_id
+            ];
+
+            $event = Event::create($new_event);
+
+            return response()->json([
+                'event' => $event
+            ]);
+        }
     }
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'name' => 'required|min:3|max:255|alpha_num',
-            'adress' => 'required|alpha_num',
-            'date' => 'required|date',
-            'link' => 'alpha_dash',
-            'description' => 'alpha_num',
-            'association_id' => 'required|integer',
-        ]);
 
-        $event = Event::findOrFail($id);
+        $array = (array) $request->all();
 
-        $event->name = $request->input('name');
-        $event->adress = $request->input('adress');
-        $event->date = $request->input('date');
-        $event->link = $request->input('link');
-        $event->description = $request->input('description');
-        $event->association_id = $request->input('association_id');
+        $validator = Validator::make(
+            $array,
+            [
+                'name' => 'required|string|regex:/^[A-Za-z0-9_]+$/',
+                'adress' => 'required|string|regex:/^[A-Za-z0-9_]+$/',
+                'date' => 'required|date|after:tomorrow',
+                'link' => 'url',
+                'description' => 'alpha_num',
+            ],
+            [
+                'name' => 'Le nom est invalide.',
+                'adress' => 'Le adress est invalide.',
+                'date' => 'La date est invalide.',
+                'link' => "Link est invalide.",
+                'description' => "La description est invalide.",
+            ]
+        );
 
-        $event->save();
+        if ($validator->fails()) {
+            return response()->json($validator->messages(), 406);
+        } else {
 
-        return $event;
+            $event = Event::findOrFail($id);
+
+            $event->name = $request->name;
+            $event->adress = $request->adress;
+            $event->date = $request->date;
+            $event->link = $request->link;
+            $event->description = $request->description;
+            $event->association_id = $request->association_id;
+            $event->committee_id = $request->committee_id;
+
+            $event->update();
+
+            return response()->json([
+                'event' => $event
+            ]);
+        }
     }
-
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        $event = Event::findOrFail($id);
-        $event->delete();
+        $user = User::findOrFail($request->user_id);
 
-        return "L'évènement a été bien supprimer.";
+        $event = Event::findOrFail($id);
+
+        $validation_password = true;
+
+        if (password_verify($request->input('password'), $user->password) !== true) {
+            $validation_password = false;
+        };
+
+        if ($validation_password === true) {
+            $event->delete();
+        };
+
+        return response()->json([
+            'message' => 'Delete successfull'
+        ]);
     }
 }

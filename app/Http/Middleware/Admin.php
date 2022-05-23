@@ -23,10 +23,7 @@ class Admin
         }
 
         if (Auth::user()->administrator === 0) {
-            $user_id = Auth::user()->id;
-            // dd($user_id);
-            $link = CommitteeUser::get()->where("user_id", $user_id);
-            // dd($link);
+            $link = CommitteeUser::where("user_id", Auth::user()->id)->get();
             $committee_id = $link[0]->committee_id;
             return redirect()->route('dashboard.show', $committee_id);
         }
