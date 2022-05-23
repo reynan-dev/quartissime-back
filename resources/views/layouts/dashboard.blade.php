@@ -7,27 +7,35 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Dashboard - Quartissime</title>
 
-    <link rel="stylesheet" href="{{ asset('style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
+
 
 </head>
 
 <body>
 
     <nav class="sidebar">
-        <h1>sidebar</h1>
+        <ul>
+            <li>Gérer Associations</li>
+            <li>Gérer Évenements</li>
+            <li>Edit Comité</li>
+        </ul>
     </nav>
 
     <div class="content">
         <section class="newRequest">
-            <h1>new request</h1>
+            <h3>Nouvelles associations à accepter</h3>
         </section>
 
         <section class="associations">
-            <h1>associations</h1>
+            <h3>Toutes les associations inscripts</h3>
+            @yield('associations')
         </section>
 
         <section class="events">
-            <h1>events</h1>
+            <h3>Les prochaines évenements</h3>
+            @yield('events')
         </section>
     </div>
 

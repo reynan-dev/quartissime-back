@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Association extends Model
 {
-    protected $table = "association";
+    protected $table = "associations";
     protected $guarded =['id'];
 
    
