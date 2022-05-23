@@ -9,7 +9,7 @@
     --font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
 }
 
-body, a:hover {
+body{
     font-family: var(--font-family);
     color: rgba(var(--color-black), 0.8);
     font-weight: 400;

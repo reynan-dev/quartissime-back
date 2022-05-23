@@ -17,6 +17,12 @@ class EventController extends Controller
         return $events;
     }
 
+    public function create() {
+    
+        //$associations = Association::with('committee')->get('id', $id);
+        return view('events.create', compact('associations'));
+
+    }
 
     public function store(Request $request)
     {

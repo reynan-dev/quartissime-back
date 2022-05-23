@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
 
+    <script src="https://kit.fontawesome.com/be8a57ad27.js" crossorigin="anonymous"></script>
 
 </head>
 
@@ -17,25 +18,25 @@
 
     <nav class="sidebar">
         <ul>
-            <li>Gérer Associations</li>
-            <li>Gérer Évenements</li>
-            <li>Edit Comité</li>
+            <li><a href="">Gérer Associations</a></li>
+            <li><a href="">Gérer Évenements</a></li>
+            <li><a href="">Edit Comité</a></li>
         </ul>
+
+        @yield('side-bar')
     </nav>
 
     <div class="content">
         <section class="newRequest">
-            <h3>Nouvelles associations à accepter</h3>
-        </section>
+            <div class="head">
+                <h3>@yield('title')</h3>
 
-        <section class="associations">
-            <h3>Toutes les associations inscripts</h3>
-            @yield('associations')
-        </section>
+                @yield('btn-create')
+            </div>
 
-        <section class="events">
-            <h3>Les prochaines évenements</h3>
-            @yield('events')
+            <ul>
+                @yield('details')
+            </ul>
         </section>
     </div>
 

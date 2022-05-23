@@ -21,7 +21,7 @@ class CreateAssociationsTable extends Migration
             $table->text('website');
             $table->text('facebook')->nullable();
             $table->text('email');
-            $table->integer('tel')->nullable();
+            $table->text('tel')->nullable();
             $table->longText('description')->nullable();
             $table->float('latitude');
             $table->float('longitude');

@@ -1,9 +1,16 @@
+h3 {
+    padding: 0px;
+    margin: 0px;
+}
+
 .sidebar {
     position: relative;
     width: 21%;
-    height: 92vh;
-    background-color: aqua;
+    height: 100%;
+    background-color: rgb(var(--color-white));
     margin-right: 2%;
+    padding: 10px;
+    border-radius: 10px;
 }
 
 div.content {
@@ -11,24 +18,92 @@ div.content {
     height: fit-content;
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
+    border-radius: 10px;
 }
 
 .content .newRequest {
     width: 100%;
     position: relative;
     margin-bottom: 2%;
-    background-color: azure;
+    background-color: rgb(var(--color-white));
+    padding: 10px;
+    border-radius: 10px;
 }
 
 .content .associations {
-    width: 49%;
+    width: 46.65%;
     position: relative;
     margin-right: 2%;
-    background-color: beige;
+    background-color: rgb(var(--color-white));
+    padding: 10px;
+    border-radius: 10px;
 }
 
 .content .events {
-    width: 49%;
+    width: 46.65%;
     position: relative;
-    background-color: beige;
+    background-color: rgb(var(--color-white));
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.content .head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+ul{
+    list-style: none;
+}
+
+li a:hover {
+    padding: 0px;
+    margin: 0px;
+}
+
+button {
+    border: 0px;
+    border-radius: 5px;
+    padding: 5px 8px;
+    position: relative;
+    height: fit-content;
+    width: fit-content;
+    cursor: pointer;
+}
+
+button.accept {
+    background-color: #6aa84f;
+    color: rgb(var(--color-white));
+}
+
+button.accept:hover {
+    background-color: #5f9747;
+}
+
+button.refuse {
+    background-color: #a52a2a;
+    color: rgb(var(--color-white));
+}
+
+button.refuse:hover {
+    background-color: #842121;
+}
+
+button.edit {
+    background-color: #f1c232;
+}
+
+button.edit:hover {
+    background-color: #c09b28;
+}
+
+button.create {
+    background-color: rgb(var(--color-logo));
+    color: rgb(var(--color-white));
+}
+
+button.create:hover {
+    background-color: #0073a9;
 }

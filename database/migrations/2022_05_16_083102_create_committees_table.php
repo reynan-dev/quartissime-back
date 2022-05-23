@@ -21,7 +21,7 @@ class CreateCommitteesTable extends Migration
             $table->text('website');
             $table->text('facebook')->nullable();
             $table->text('email');
-            $table->integer('tel')->nullable();
+            $table->text('tel')->nullable();
             $table->text('president_name');
             $table->longText('description')->nullable();
             $table->float('latitude');
