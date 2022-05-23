@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Committee;
+use App\Models\CommitteeUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -16,8 +17,10 @@ class CommitteeController extends Controller
      */
     public function index()
     {
-        $committee_details = Committee::all();
-        return compact('committee_details');
+        $committee = Committee::all();
+        return response()->json([
+            'commmittee' => $committee
+        ]);
     }
 
     /**
@@ -37,11 +40,13 @@ class CommitteeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($committee)
     {
-        $committee_user = Committee::findOrFail($id);
-        return view('CommitteeUsers', compact('committee_user', 'id'));
-        //
+        $committee = Committee::findOrFail($committee);
+
+        return response()->json([
+            'commmittee' => $committee
+        ]);
     }
 
     /**

@@ -7,15 +7,7 @@ use App\Http\Controllers\CommitteeController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\RiverainsController;
 use App\Http\Controllers\HomeController;
-
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-
+use Laravel\Sanctum\Sanctum;
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -27,6 +19,7 @@ Route::apiResources([
     '/associations' => AssociationController::class,
     '/committees' => CommitteeController::class,
 ]);
+
 Route::get('/committees/nearest', [HomeController::class, "calcultop3assocomite"]);
 
 Route::post(
@@ -41,9 +34,18 @@ Route::post(
 //     }
 // );
 
+Route::redirect('/', 'http://localhost:8080/connect')->name('login');
+
 Route::prefix('auth')->group(function () {
-    Route::post('/login/admin', [\App\Http\Controllers\Auth\Api\LoginController::class, 'loginAdmin']);
-    Route::post('/login/comite', [\App\Http\Controllers\Auth\Api\LoginController::class, 'loginComite']);
+    Route::post('/login', [\App\Http\Controllers\Auth\Api\LoginController::class, 'login']);
     Route::post('/logout', [\App\Http\Controllers\Auth\Api\LoginController::class, 'logout'])->middleware('auth:sanctum');
     Route::post('/register', [\App\Http\Controllers\Auth\Api\RegisterController::class, 'register']);
+});
+
+Route::prefix('dashboard')->middleware('auth:sanctum')->group(function (){
+    Route::get('/', [\App\Http\Controllers\CommitteeController::class, 'index'])->middleware('admin')->name('dashboard.index');
+    Route::get('/{committee_id?}', [\App\Http\Controllers\CommitteeController::class, 'show'])->middleware('comite')->name('dashboard.show');
+
+
+
 });

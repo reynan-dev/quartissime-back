@@ -17,7 +17,7 @@ class CreateCommitteesTable extends Migration
             $table->id();
             $table->text('name');
             $table->text('adress');
-            $table->boolean('adress_public');
+            $table->tinyInteger('adress_public');
             $table->text('website');
             $table->text('facebook')->nullable();
             $table->text('email');

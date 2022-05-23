@@ -17,7 +17,7 @@ class CreateAssociationsTable extends Migration
             $table->id();
             $table->text('name');
             $table->text('adress');
-            $table->boolean('adress_public');
+            $table->tinyInteger('adress_public')->default(0);
             $table->text('website');
             $table->text('facebook')->nullable();
             $table->text('email');
@@ -26,7 +26,7 @@ class CreateAssociationsTable extends Migration
             $table->float('latitude');
             $table->float('longitude');
             $table->integer('committee_id');
-            $table->boolean('accept')->default(0);
+            $table->tinyInteger('accept')->default(0);
             $table->timestamps();
         });
     }
