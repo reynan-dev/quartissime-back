@@ -30,4 +30,3 @@ Route::get('/', function () {
 // Route::post(
 //     '/associations', [AssociationController::class, 'store']
 // );
- 
