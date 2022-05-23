@@ -1,0 +1,43 @@
+:root {
+    --color-logo: 0, 144, 212;
+    --color-primary: 38, 133, 187;
+    --color-secundary: 54, 99, 173;
+    --color-terciary: 208, 156, 63;
+    --color-white: 249, 249, 249;
+    --color-black: 34, 34, 34;
+
+    --font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+}
+
+body, a:hover {
+    font-family: var(--font-family);
+    color: rgba(var(--color-black), 0.8);
+    font-weight: 400;
+    margin: 0px;
+    padding: 3%;
+}
+
+h1, h2, h3, h4, h5, b, a {
+    color: rgba(var(--color-black), 1);
+    text-decoration: none;
+    font-weight: 400;
+}
+
+.hidden {
+    display: none;
+}
+
+/* CSS Desktop */
+
+@import url('navbar.css');
+@import url('dashboard.css');
+@import url('trouver.css');
+@import url('map.css');
+@import url('connect.css');
+
+/* CSS Mobile */
+
+@import url('trouver.mobile.css');
+@import url('navbar.mobile.css');
+@import url('map.mobile.css');
+@import url('connect.mobile.css');
