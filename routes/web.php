@@ -11,10 +11,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-<<<<<<< HEAD
-// Route::post(
-//     '/associations', [AssociationController::class, 'store']
-// );
-=======
  
->>>>>>> reynan.dev
