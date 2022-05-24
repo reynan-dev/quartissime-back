@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Committee;
 
 use App\Models\Association;
+use Illuminate\Http\Request;
 use App\Models\AssociationPhoto;
-use App\Models\Committee;
+use Illuminate\Support\Facades\Validator;
 
 class AssociationController extends Controller
 {
@@ -18,6 +19,7 @@ class AssociationController extends Controller
 
     public function store(Request $request)
     {
+        $array = (array) $request->all();
 
 
         // $request->validate([
@@ -30,6 +32,29 @@ class AssociationController extends Controller
         //     'description' => 'alpha_num',
         //     'committee_id' => 'required|integer',
         // ]);
+
+        $validator = Validator::make(
+            $array,
+            [
+                'nom' => 'min:3|max:255|string',
+                'adresse' => 'required|string',
+                'website' => 'url',
+                'email' => 'required|email:rfc',
+                'tel' => 'regex:/(0)[0-9]{9}/',
+                'description' => 'string',
+                'comiteId' => 'required|integer',
+            ],
+            [
+                'name' => 'Le nom est invalide.',
+                'adress' => "L'adresse est invalide.",
+                'website' => 'Le site web est invalide.',
+                'email' => "L'adresse mail est invalide",
+                'description' => "La description est invalide.",
+            ]
+        );
+        if ($validator->fails()) {
+            return response()->json($validator->messages(), 406);
+        } else {
 
         $association = [
             'name' => $request->nom,
@@ -49,8 +74,7 @@ class AssociationController extends Controller
         $newAssociation = Association::create($association);
 
         return response()->json(["message" => $newAssociation]);
-
-
+        };
         /*
         $photos = $request->file('photos');
 
