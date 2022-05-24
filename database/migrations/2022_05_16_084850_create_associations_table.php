@@ -13,18 +13,20 @@ class CreateAssociationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('association', function (Blueprint $table) {
+        Schema::create('associations', function (Blueprint $table) {
             $table->id();
             $table->text('name');
             $table->text('adress');
-            $table->boolean('adress_public');
+            $table->tinyInteger('adress_public')->default(0);
             $table->text('website');
             $table->text('facebook')->nullable();
             $table->text('email');
-            $table->integer('tel')->nullable();
+            $table->text('tel')->nullable();
             $table->longText('description')->nullable();
-            $table->float('latitude');
-            $table->float('longitude');
+            $table->float('latitude', 9, 7);
+            $table->float('longitude', 9, 7);
+            $table->integer('committee_id');
+            $table->tinyInteger('accept')->default(0);
             $table->timestamps();
         });
     }
@@ -36,6 +38,7 @@ class CreateAssociationsTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('association');
         Schema::dropIfExists('associations');
     }
 }

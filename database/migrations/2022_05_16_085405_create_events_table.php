@@ -21,6 +21,7 @@ class CreateEventsTable extends Migration
             $table->text('link')->nullable();
             $table->longText('description')->nullable();
             $table->integer('association_id')->nullable();
+            $table->integer('committee_id');
             $table->timestamps();
         });
     }

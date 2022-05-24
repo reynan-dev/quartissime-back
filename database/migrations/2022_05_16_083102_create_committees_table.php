@@ -17,15 +17,15 @@ class CreateCommitteesTable extends Migration
             $table->id();
             $table->text('name');
             $table->text('adress');
-            $table->boolean('adress_public');
+            $table->tinyInteger('adress_public')->default(0);
             $table->text('website');
             $table->text('facebook')->nullable();
             $table->text('email');
-            $table->integer('tel')->nullable();
+            $table->text('tel')->nullable();
             $table->text('president_name');
             $table->longText('description')->nullable();
-            $table->float('latitude');
-            $table->float('longitude');
+            $table->float('latitude', 9, 7);
+            $table->float('longitude', 9, 7);
             $table->timestamps();
         });
     }
