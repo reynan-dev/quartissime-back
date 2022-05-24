@@ -4,50 +4,73 @@ namespace App\Http\Controllers\Auth\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
 {
-    public function loginAdmin(Request $request)
+    public function login(Request $request)
     {
+        $array = (array) $request->all();
 
-        $request->validate([
-            'email' => 'required|email:rfc,dns',
-            'password'=> 'required|alpha_dash|min:6',
-        ]);
+        if (!$array['email']) {
+            $validator = Validator::make(
+                $array,
+                [
+                    'identifiant' => 'alpha|min:3|max:255',
+                    'password' => 'required|alpha_dash|min:8',
+                ],
+                [
+                    'identifiant' => 'Identifiant invalide, il fault mettre un identifiant valide.',
+                    'password' => 'Le mot de passe doit contenir des chiffres, des lettres et des caractères spéciaux.'
+                ]
+            );
 
-        $credentials = $request->only('email', 'password');
-        
-        if (!auth()->attempt($credentials)) {
-            return response()->json(['message' => 'Invalid Credentials'], 401);
+            if ($validator->fails()) {
+                return response()->json($validator->messages(), 406);
+            } else {
+
+                $credentials = $request->only('identifiant', 'password');
+
+                if (!auth()->attempt($credentials)) {
+                    return response()->json(['message' => 'Invalid Credentials'], 401);
+                }
+
+                $token = auth()->user()->createToken('auth_token');
+
+                return response()->json([
+                    'token' => $token->plainTextToken
+                ]);
+            };
+        } else {
+            $validator = Validator::make(
+                $array,
+                [
+                    'email' => 'required|email:rfc,dns',
+                    'password' => 'required|alpha_dash|min:8',
+                ],
+                [
+                    'email' => 'Email invalide, il fault mettre un email valide.',
+                    'password' => 'Le mot de passe doit contenir des chiffres, des lettres et des caractères spéciaux.'
+                ]
+            );
+
+            if ($validator->fails()) {
+                return response()->json($validator->messages(), 406);
+            } else {
+
+                $credentials = $request->only('email', 'password');
+
+                if (!auth()->attempt($credentials)) {
+                    return response()->json(['message' => 'Invalid Credentials'], 401);
+                }
+
+                $token = auth()->user()->createToken('auth_token');
+
+                return response()->json([
+                    'token' => $token->plainTextToken
+                ]);
+            };
         }
-
-        $token = auth()->user()->createToken('auth_token');
-
-        return response()->json([
-                'token' => $token->plainTextToken
-        ]);
-    }
-
-    public function loginComite(Request $request)
-    {
-
-        $request->validate([
-            'identifiant' => 'required|alpha_num|min:3|max:255',
-            'password'=> 'required|alpha_dash|min:6|max:255',
-        ]);
-
-        $credentials = $request->only('identifiant', 'password');
-
-        if (!auth()->attempt($credentials))
-            abort(401, 'Invalid Credentials');
-
-        $token = auth()->user()->createToken('auth_token');
-
-        return response()->json([
-            'data' => [
-                'token' => $token->plainTextToken
-            ]
-        ]);
     }
 
     public function logout()
@@ -58,5 +81,4 @@ class LoginController extends Controller
             [], 204
         ]);
     }
-
 }
