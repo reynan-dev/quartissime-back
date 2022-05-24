@@ -46,10 +46,10 @@ class AssociationController extends Controller
         ];
 
 
-        $newAssociation=Association::create($association);
+        $newAssociation = Association::create($association);
 
         return response()->json(["message" => $newAssociation]);
-     
+
 
         /*
         $photos = $request->file('photos');
@@ -88,11 +88,13 @@ class AssociationController extends Controller
         return $association;
     }
 
-    public function showAll($committee_id)
+    public function findByComittee(Request $request)
     {
-        $associations = Committee::with('associations')->findMany($committee_id, 'committee_id');
+        $committee_id = $request->input("id");
 
-        return $associations;
+        $associations = Association::where("committee_id", "=", $committee_id)->get();
+
+        return response()->json(['associations_details' => $associations]);
     }
 
     public function update(Request $request, $id)
