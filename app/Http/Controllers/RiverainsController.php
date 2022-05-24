@@ -10,13 +10,8 @@ class RiverainsController extends Controller
 {
     public function store(request $request)
     {
-        // return response()->json($request->email);
-    
-        
-        Mail::to($request->email)->send(new Riverains());
-
-        // return redirect()
-        //     ->route('/map')
-        //     ->with('message', 'Votre invitation a bien été envoyée');
+        $comiteName= $request->comiteName;
+        Mail::to($request->comiteMail)->send(new Riverains());
+        compact('comiteName');
     }
 }
