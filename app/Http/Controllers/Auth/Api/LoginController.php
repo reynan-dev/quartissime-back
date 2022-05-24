@@ -10,7 +10,6 @@ class LoginController extends Controller
     public function loginAdmin(Request $request)
     {
 
-        // Validar request (A FAIRE)
         $request->validate([
             'email' => 'required|email:rfc,dns',
             'password'=> 'required|alpha_dash|min:6',
@@ -59,10 +58,5 @@ class LoginController extends Controller
             [], 204
         ]);
     }
-/*
-    public function getToken($localStorage_token)
-    {
-        $bdd_token = auth('sanctum')->check();
-        dd($bdd_token);
-    }*/
+
 }
