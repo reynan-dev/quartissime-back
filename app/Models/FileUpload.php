@@ -9,8 +9,8 @@ class FileUpload extends Model
 {
     use HasFactory;
     protected $fillable = [
-
-        'id',
-        'url'
+        'extension',
+        'url',
+        'committee_id',
     ];
 }

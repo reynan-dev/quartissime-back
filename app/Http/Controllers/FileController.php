@@ -4,15 +4,93 @@ namespace App\Http\Controllers;
 
 use App\Models\FileUpload;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class FileController extends Controller
 {
 
     public function formSubmit(Request $request)
     {
-        $fileName = time() . '.' . $request->file->getClientOriginalExtension();
-        $request->file->move(public_path('upload'), $fileName);
+        $array = (array) $request->all();
 
-        return response()->json(['success' => 'You have successfully upload file.']);
+        if ($request->type === 'committee') {
+
+            $validator = Validator::make($array,
+            [
+                'file' => 'required|image',
+            ], 
+            [
+                'file' => "Le format d'image est pas accepté."
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'message' => $validator->messages(),
+                    406
+                ])
+            }
+
+            $fileName = time() . '.' . $request->file->getClientOriginalExtension();
+        
+            $request->file->move(public_path('upload'), $fileName);
+    
+            $path = public_path('upload').$fileName; 
+    
+    
+            $file = [
+                'extension' => $request->file->getClientOriginalExtension(),
+                'url' => $path,
+                'committee_id' => $request->committee_id
+            ];
+    
+            $new_file = FileUpload::create($file);
+    
+            return response()->json([
+                'message' => 'You have successfully upload file.',
+                'file' => $new_file,
+            ]);
+
+        } else if ($request->type === 'event') {
+
+            $validator = Validator::make($array,
+            [
+                'file' => 'required|mimes:pdf,jpeg,jpg,png,bmp,svg|max:10000',
+            ], 
+            [
+                'file' => "Le format de fichier est pas accepté."
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'message' => $validator->messages(),
+                    406
+                ])
+            };
+
+            $fileName = time() . '.' . $request->file->getClientOriginalExtension();
+        
+            $request->file->move(public_path('upload'), $fileName);
+    
+            $path = public_path('upload').$fileName; 
+    
+    
+            $file = [
+                'extension' => $request->file->getClientOriginalExtension(),
+                'url' => $path,
+                'committee_id' => $request->committee_id
+            ];
+    
+            $new_file = FileUpload::create($file);
+    
+            return response()->json([
+                'message' => 'You have successfully upload file.',
+                'file' => $new_file,
+            ]);
+
+        }
+    } else {
+        return response()->json([
+            'message' => 'error upload',
+        ])
     }
 }
