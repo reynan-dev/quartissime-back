@@ -27,8 +27,8 @@ class FileController extends Controller
                 return response()->json([
                     'message' => $validator->messages(),
                     406
-                ])
-            }
+                ]);
+            };
 
             $fileName = time() . '.' . $request->file->getClientOriginalExtension();
         
@@ -64,7 +64,7 @@ class FileController extends Controller
                 return response()->json([
                     'message' => $validator->messages(),
                     406
-                ])
+                ]);
             };
 
             $fileName = time() . '.' . $request->file->getClientOriginalExtension();
@@ -87,10 +87,11 @@ class FileController extends Controller
                 'file' => $new_file,
             ]);
 
-        }
-    } else {
-        return response()->json([
-            'message' => 'error upload',
-        ])
+        };
+        
+
+            return response()->json([
+                'message' => 'error upload',
+            ]);
     }
-}
+};
