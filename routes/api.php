@@ -1,13 +1,14 @@
 <?php
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AssociationController;
-use App\Http\Controllers\CommitteeController;
-use App\Http\Controllers\EventController;
-use App\Http\Controllers\RiverainsController;
-use App\Http\Controllers\HomeController;
 use Laravel\Sanctum\Sanctum;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\CommitteeController;
+use App\Http\Controllers\RiverainsController;
+use App\Http\Controllers\AssociationController;
+use App\Http\Controllers\ImageUploadController;
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -57,8 +58,13 @@ Route::prefix('dashboard')->middleware('auth:sanctum')->group(function () {
     Route::put('/{id}', [\App\Http\Controllers\CommitteeController::class, 'update'])
         ->name('dashboard.update');
     Route::delete('/{id}', [\App\Http\Controllers\CommitteeController::class, 'destroy'])
-       ->middleware('admin')
-       ->name('dashboard.destroy');
+        ->middleware('admin')
+        ->name('dashboard.destroy');
+});
+
+Route::prefix('uploads')->middleware('auth:sanctum')->group(function () {
+    Route::post('formSubmit', 'FileController@formSubmit');
+    // Route::post('/', [FileController::class, 'upload'])->name('uploads.upload');
 });
 
 Route::prefix('associations')->middleware('auth:sanctum')->group(function () {
