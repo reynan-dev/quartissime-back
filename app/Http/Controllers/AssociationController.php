@@ -22,17 +22,6 @@ class AssociationController extends Controller
         $array = (array) $request->all();
 
 
-        // $request->validate([
-        //     'name' => 'required|min:3|max:255|alpha_num',
-        //     'adress' => 'required|alpha_num',
-        //     'website' => 'alpha_dash',
-        //     'facebook' => 'alpha_dash',
-        //     'email' => 'required|email:rfc',
-        //     'tel' => 'integer',
-        //     'description' => 'alpha_num',
-        //     'committee_id' => 'required|integer',
-        // ]);
-
         $validator = Validator::make(
             $array,
             [
