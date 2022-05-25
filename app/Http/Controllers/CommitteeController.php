@@ -22,7 +22,7 @@ class CommitteeController extends Controller
         $user = Auth::user();
 
         return response()->json([
-            'commmittees' => $committees,
+            'committees' => $committees,
             'associations' => $associations,
             'events' => $events,
             'user' => $user
