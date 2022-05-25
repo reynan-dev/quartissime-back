@@ -19,11 +19,13 @@ class CommitteeController extends Controller
         $associations = Association::all();
         $events = Event::all();
         $committees = Committee::all();
+        $user = Auth::user();
 
         return response()->json([
             'commmittees' => $committees,
             'associations' => $associations,
             'events' => $events,
+            'user' => $user
         ]);
     }
 
@@ -32,11 +34,15 @@ class CommitteeController extends Controller
         $committee = Committee::findOrFail($committee);
         $associations = Association::where('committee_id', $committee->id);
         $events = Event::where('committee_id', $committee->id);
+        $user = Auth::user();
+
 
         return response()->json([
             'commmittee' => $committee,
             'associations' => $associations,
             'events' => $events,
+            'user' => $user
+
         ]);
     }
 

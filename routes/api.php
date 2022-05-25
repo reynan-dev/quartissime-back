@@ -1,13 +1,14 @@
 <?php
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AssociationController;
-use App\Http\Controllers\CommitteeController;
-use App\Http\Controllers\EventController;
-use App\Http\Controllers\RiverainsController;
-use App\Http\Controllers\HomeController;
 use Laravel\Sanctum\Sanctum;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\CommitteeController;
+use App\Http\Controllers\RiverainsController;
+use App\Http\Controllers\AssociationController;
+use App\Http\Controllers\ImageUploadController;
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -57,11 +58,9 @@ Route::prefix('dashboard')->middleware('auth:sanctum')->group(function () {
     Route::put('/{id}', [\App\Http\Controllers\CommitteeController::class, 'update'])
         ->name('dashboard.update');
     Route::delete('/{id}', [\App\Http\Controllers\CommitteeController::class, 'destroy'])
-       ->middleware('admin')
-       ->name('dashboard.destroy');
-});
+        ->middleware('admin')
+        ->name('dashboard.destroy');
 
-Route::prefix('associations')->middleware('auth:sanctum')->group(function () {
     /* Routes des associations */
     Route::get('/', [\App\Http\Controllers\AssociationController::class, 'index'])
         ->name('associations.index');
@@ -73,9 +72,7 @@ Route::prefix('associations')->middleware('auth:sanctum')->group(function () {
         ->name('associations.update');
     Route::delete('/{id}', [\App\Http\Controllers\AssociationController::class, 'destroy'])
         ->name('associations.destroy');
-});
 
-Route::prefix('events')->middleware('auth:sanctum')->group(function () {
     /* Routes des événements */
     Route::get('/', [\App\Http\Controllers\EventController::class, 'index'])
         ->name('events.index');
@@ -87,4 +84,8 @@ Route::prefix('events')->middleware('auth:sanctum')->group(function () {
         ->name('events.update');
     Route::delete('/{id}', [\App\Http\Controllers\EventController::class, 'destroy'])
         ->name('events.destroy');
+});
+
+Route::prefix('upload')->middleware('auth:sanctum')->group(function () {
+    Route::post('submit', 'App\Http\Controllers\FileController@formSubmit');
 });
