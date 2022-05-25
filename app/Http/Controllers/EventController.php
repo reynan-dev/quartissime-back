@@ -42,6 +42,8 @@ class EventController extends Controller
                 'date' => 'required|date|after:tomorrow',
                 'link' => 'url',
                 'description' => 'alpha_num',
+                'comite_id' => 'required|integer|numeric',
+                'association_id' => 'integer|numeric'
             ],
             [
                 'name' => 'Le nom est invalide.',
@@ -49,6 +51,8 @@ class EventController extends Controller
                 'date' => 'La date est invalide.',
                 'link' => "Link est invalide.",
                 'description' => "La description est invalide.",
+                'comite_id' => "L'id du comite est invalide.",
+                'association_id' => "L'id de l'association est invalide."
             ]
         );
 
