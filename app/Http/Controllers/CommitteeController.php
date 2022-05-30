@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Committee;
 use App\Models\CommitteeUser;
 use App\Models\Event;
+use App\Models\CommitteePhoto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -29,26 +30,38 @@ class CommitteeController extends Controller
         ]);
     }
 
-    public function show($committee)
+    public function show($id)
     {
-        $committee = Committee::findOrFail($committee);
-        $associations = Association::where('committee_id', $committee->id);
-        $events = Event::where('committee_id', $committee->id);
+        $committee = Committee::findOrFail($id);
+        $committees = [];
+        array_push($committees, $committee);
+
+        $association = Association::where('committee_id', $committee->id)->get();
+        $associations = [];
+
+        is_array($association) ? false : array_push($associations, $association);
+
+        $event = Event::where('committee_id', $committee->id)->get();
+        $events = [];
+
+        is_array($event) ? false : array_push($events, $event);
+
+
         $user = Auth::user();
 
 
         return response()->json([
-            'commmittee' => $committee,
+            'committees' => $committees,
             'associations' => $associations,
             'events' => $events,
             'user' => $user
-
         ]);
     }
 
     public function store(Request $request)
     {
-        $array = (array) $request->all();
+
+        /*  $array = (array) $request->all();
 
         $validator = Validator::make(
             $array,
@@ -61,6 +74,7 @@ class CommitteeController extends Controller
                 'tel' => 'regex:/(0)[0-9]{9}/',
                 'president_name' => 'required|string|alpha',
                 'description' => 'alpha_num',
+                'photo' => 'image'
             ],
             [
                 'name' => 'Le nom est invalide.',
@@ -71,38 +85,53 @@ class CommitteeController extends Controller
                 'tel' => "Le tel est invalide.",
                 'president_name' => "Le nom du président est invalide.",
                 'description' => "La description est invalide.",
+                'photo' => "Le format d'image est pas accepté.",
             ]
         );
 
         if ($validator->fails()) {
-            return response()->json($validator->messages(), 406);
-        } else {
+            return response()->json(['messages' => $validator->messages()], 406);
+        } else {*/
 
-            $new_committee = [
-                'name' => $request->name,
-                'adress' => $request->adress,
-                'adress_public' => $request->adress_public,
-                'website' => $request->website,
-                'facebook' => $request->facebook,
-                'email' => $request->email,
-                'tel' => $request->tel,
-                'president_name' => $request->president_name,
-                'description' => $request->description,
-                'latitude' => $request->latitude,
-                'longitude' => $request->longitude,
+        $new_committee = [
+            'name' => $request->name,
+            'adress' => $request->adress,
+            'adress_public' => $request->adress_public,
+            'website' => $request->website,
+            'facebook' => $request->facebook,
+            'email' => $request->email,
+            'tel' => $request->tel,
+            'president_name' => $request->president_name,
+            'description' => $request->description,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
+        ];
+
+        $committee = Committee::create($new_committee);
+        /*
+            $fileName = time() . '.' . $request->file->getClientOriginalExtension();
+            $request->file->move(public_path('/comite-' . $committee->id . '/upload'), $fileName);
+            $path = public_path('/comite-' . $committee->id . '/upload') . $fileName;
+
+
+            $file = [
+                'extension' => $request->file->getClientOriginalExtension(),
+                'url' => $path,
+                'committee_id' => $request->committee_id
             ];
 
-            $committee = Committee::create($new_committee);
+            $new_file = CommitteePhoto::create($file);*/
 
-            return response()->json([
-                'committee' => $committee
-            ]);
-        };
+        return response()->json([
+            'committee' => $committee,
+            // 'photo' => $new_file
+        ]);
+        /*  }*/
     }
 
     public function update(Request $request, $id)
     {
-        $array = (array) $request->all();
+        /* $array = (array) $request->all();
 
         $validator = Validator::make(
             $array,
@@ -114,7 +143,7 @@ class CommitteeController extends Controller
                 'email' => 'required|email:rfc,dns',
                 'tel' => 'regex:/(0)[0-9]{9}/',
                 'president_name' => 'required|string|alpha',
-                'description' => 'alpha_num',
+                'description' => 'string',
             ],
             [
                 'name' => 'Le nom est invalide.',
@@ -129,29 +158,36 @@ class CommitteeController extends Controller
         );
 
         if ($validator->fails()) {
-            return response()->json($validator->messages(), 406);
+            return response()->json(['messages' => $validator->messages()], 406);
         } else {
+*/
+        $committee = Committee::findOrFail($id);
 
-            $committee = Committee::findOrFail($id);
+        if ($request->adress_public === false) {
+            $committee->adress_public = 0;
+        };
 
-            $committee->name = $request->name;
-            $committee->adress =  $request->adress;
-            $committee->adress_public =  $request->adress_public;
-            $committee->website =  $request->website;
-            $committee->facebook =  $request->facebook;
-            $committee->email =  $request->email;
-            $committee->tel =  $request->tel;
-            $committee->president_name =  $request->president_name;
-            $committee->description =  $request->description;
-            $committee->latitude = $request->latitude;
-            $committee->longitude =  $request->longitude;
+        if ($request->adress_public === true) {
+            $committee->adress_public = 1;
+        };
 
-            $committee->update();
+        $committee->name = $request->name;
+        $committee->adress =  $request->adress;
+        $committee->website =  $request->website;
+        $committee->facebook =  $request->facebook;
+        $committee->email =  $request->email;
+        $committee->tel =  $request->tel;
+        $committee->president_name =  $request->president_name;
+        $committee->description =  $request->description;
+        $committee->latitude = $request->latitude;
+        $committee->longitude =  $request->longitude;
 
-            return response()->json([
-                'committee' => $committee
-            ]);
-        }
+        $committee->update();
+
+        return response()->json([
+            'committee' => $committee
+        ]);
+        /*  }*/
     }
 
     public function destroy(Request $request, $id)

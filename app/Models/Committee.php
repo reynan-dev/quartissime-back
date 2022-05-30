@@ -8,17 +8,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Committee extends Model
 {
-    protected $fillable = [
-        'name',
-        'adress',
-        'adress_public',
-        'website',
-        'facebook',
-        'president_name',
-        'email',
-        'tel',
-        'description',
-    ];
+    protected $guarded =['id'];
+
 
     use HasFactory;
 

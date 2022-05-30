@@ -9,8 +9,11 @@ use Illuminate\Support\Facades\Validator;
 class FileController extends Controller
 {
 
-    public function formSubmit(Request $request)
+    public function submit(Request $request)
     {
+        dd($request->all());
+
+        /*
         $array = (array) $request->all();
 
         // dd($array);
@@ -96,6 +99,10 @@ class FileController extends Controller
 
         return response()->json([
             'message' => 'error upload',
-        ]);
+        ]); */
+    }
+
+    public function test() {
+        dd('test');
     }
 };

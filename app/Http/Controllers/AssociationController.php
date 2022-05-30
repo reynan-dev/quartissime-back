@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Committee;
-
 use App\Models\Association;
 use Illuminate\Http\Request;
 use App\Models\AssociationPhoto;
+use App\Models\Committee;
+use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 
 class AssociationController extends Controller
@@ -15,6 +15,18 @@ class AssociationController extends Controller
     {
         $association_details = Association::all();
         return compact('association_details');
+    }
+
+    public function show($id)
+    {
+        $association = Association::findOrFail($id);
+
+        $committee = Committee::findOrFail($association->committee_id);
+
+        return response()->json([
+            'associations' => $association,
+            'committees' => $committee
+        ]);
     }
 
     public function store(Request $request)
@@ -45,25 +57,28 @@ class AssociationController extends Controller
             return response()->json($validator->messages(), 406);
         } else {
 
-        $association = [
-            'name' => $request->nom,
-            'adress' => $request->adresse,
-            'adress_public' => $request->adressePublique,
-            'website' => $request->website,
-            'facebook' => $request->facebook,
-            'email' => $request->email,
-            'tel' => $request->tel,
-            'description' => $request->description,
-            'latitude' => $request->latitude,
-            'longitude' => $request->longitude,
-            'committee_id' => $request->comiteId,
-        ];
+            $association = [
+                'name' => $request->nom,
+                'adress' => $request->adresse,
+                'adress_public' => $request->adressePublique,
+                'website' => $request->website,
+                'facebook' => $request->facebook,
+                'email' => $request->email,
+                'tel' => $request->tel,
+                'description' => $request->description,
+                'latitude' => $request->latitude,
+                'longitude' => $request->longitude,
+                'committee_id' => $request->comiteId,
+            ];
 
 
-        $newAssociation = Association::create($association);
+            $newAssociation = Association::create($association);
 
-        return response()->json(["message" => $newAssociation]);
-        };
+            return response()->json([
+                "message" => $newAssociation,
+                'association' => $newAssociation
+            ]);
+        }
         /*
         $photos = $request->file('photos');
 
@@ -94,12 +109,6 @@ class AssociationController extends Controller
         $new_association_photos = AssociationPhoto::create($association_photos); */
     }
 
-    public function show($id)
-    {
-        $association = Association::findOrFail($id);
-
-        return $association;
-    }
 
     public function findByComittee(Request $request)
     {
@@ -112,22 +121,47 @@ class AssociationController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'name' => 'required|min:3|max:255|alpha_num',
-            'adress' => 'required|alpha_num',
-            'website' => 'alpha_dash',
-            'facebook' => 'alpha_dash',
-            'email' => 'required|email:rfc',
-            'tel' => 'integer',
-            'description' => 'alpha_num',
-            'committee_id' => 'required|integer',
-        ]);
 
+        /* $array = (array) $request->all();
+
+        $validator = Validator::make(
+            $array,
+            [
+                'name' => 'required|string|alpha_num',
+                'adress' => 'required|string|alpha_num',
+                'website' => 'required|url',
+                'facebook' => 'url',
+                'email' => 'required|email:rfc,dns',
+                'tel' => 'regex:/(0)[0-9]{9}/',
+                'description' => 'string',
+            ],
+            [
+                'name' => 'Le nom est invalide.',
+                'adress' => 'Le adress est invalide.',
+                'website' => "L'url est invalide.",
+                'facebook' => "L'url est invalide.",
+                'email' => "L'email est invalide.",
+                'tel' => "Le tel est invalide.",
+                'description' => "La description est invalide.",
+            ]
+        );
+
+        if ($validator->fails()) {
+            return response()->json(['messages' => $validator->messages()], 406);
+        } else {
+*/
         $association = Association::findOrFail($id);
+
+        if ($request->adress_public === false) {
+            $association->adress_public = 0;
+        };
+
+        if ($request->adress_public === true) {
+            $association->adress_public = 1;
+        };
 
         $association->name = $request->input('name');
         $association->adress = $request->input('adress');
-        $association->adress_public = $request->input('adress_public');
         $association->website = $request->input('website');
         $association->facebook = $request->input('facebook');
         $association->email = $request->input('email');
@@ -135,13 +169,67 @@ class AssociationController extends Controller
         $association->description = $request->input('description');
 
         $association->save();
+
+        return response()->json([
+            'association' => $association
+        ]);
+        /*}*/
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $association = Association::findOrFail($id);
-        $association->delete();
 
-        return "L'association a été bien supprimer.";
+        if ($association->accept === 0) {
+
+            $association->delete();
+            return response()->json([
+                'message' => 'Delete successfull'
+            ]);
+        } else {
+
+            $user = User::findOrFail($request->user_id);
+
+            $validation_password = true;
+
+            if (password_verify($request->input('password'), $user->password) !== true) {
+                $validation_password = false;
+            };
+
+            if ($validation_password === true) {
+                $association->delete();
+            };
+
+            return response()->json([
+                'message' => 'Delete successfull'
+            ]);
+        }
+    }
+
+    public function accept(Request $request, $id)
+    {
+
+        $association = Association::findOrFail($id);
+
+        $association->accept = 1;
+        $association->save();
+
+        return response()->json([
+            'message' => 'Accept successfull',
+            'association' => $association
+        ]);
+    }
+
+    public function acceptAll(Request $request)
+    {
+        $associations = Association::where('committee_id', $request->committee_id)->get();
+
+        foreach ($associations as $item) {
+            $item->accept = 1;
+        }
+
+        return response()->json([
+            'message' => 'Accept All successfull'
+        ]);
     }
 }
