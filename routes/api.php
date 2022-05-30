@@ -87,5 +87,5 @@ Route::prefix('dashboard')->middleware('auth:sanctum')->group(function () {
 });
 
 Route::prefix('upload')->middleware('auth:sanctum')->group(function () {
-    Route::post('submit', 'App\Http\Controllers\FileController@formSubmit');
+    Route::post('submit', [\App\Http\Controllers\FileController::class, 'formSubmit']);
 });

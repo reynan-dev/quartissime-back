@@ -13,7 +13,7 @@ class FileController extends Controller
     {
         $array = (array) $request->all();
 
-        dd($array);
+        // dd($array);
 
         if ($request->type === 'committee') {
 
