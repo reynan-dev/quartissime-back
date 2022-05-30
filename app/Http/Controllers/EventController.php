@@ -46,8 +46,8 @@ class EventController extends Controller
         $validator = Validator::make(
             $array,
             [
-                'name' => 'required|string|regex:/^[A-z0-9_\s]+$/',
-                'adress' => 'required|string|regex:/^[A-z0-9_\s]+$/',
+                'name' => 'required|string|regex:/^[A-z0-9_\s\']+$/',
+                'adress' => 'required|string|regex:/^[A-z0-9_\s\']+$/',
                 'date' => 'required|date|after:tomorrow',
                 'association_id' => 'numeric',
                 'committee_id' => 'required|numeric',
@@ -93,8 +93,8 @@ class EventController extends Controller
         $validator = Validator::make(
             $array,
             [
-               'name' => 'required|string|regex:/^[A-z0-9_\s]+$/',
-                'adress' => 'required|string|regex:/^[A-z0-9_\s]+$/',
+               'name' => 'required|string|regex:/^[A-z0-9_\s\']+$/',
+                'adress' => 'required|string|regex:/^[A-z0-9_\s\']+$/',
                 'date' => 'required|date|after:tomorrow',
                 'association_id' => 'numeric',
                 'committee_id' => 'required|numeric',

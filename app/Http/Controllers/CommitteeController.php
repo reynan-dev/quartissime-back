@@ -66,8 +66,8 @@ class CommitteeController extends Controller
         $validator = Validator::make(
             $array,
             [
-                'name' => 'required|string|regex:/^[A-z0-9_\s]+$/',
-                'adress' => 'required|string|regex:/^[A-z0-9_\s]+$/',
+                'name' => 'required|string|regex:/^[A-z0-9_\s\']+$/',
+                'adress' => 'required|string|regex:/^[A-z0-9_\s\']+$/',
                 'website' => 'required|url',
                 'facebook' => 'url',
                 'email' => 'required|email:rfc,dns',
@@ -136,8 +136,8 @@ class CommitteeController extends Controller
         $validator = Validator::make(
             $array,
             [
-                'name' => 'required|string|regex:/^[A-z0-9_\s]+$/',
-                'adress' => 'required|string|regex:/^[A-z0-9_\s]+$/',
+                'name' => 'required|string|regex:/^[A-z0-9_\s\']+$/',
+                'adress' => 'required|string|regex:/^[A-z0-9_\s\']+$/',
                 'website' => 'required|url',
                 'facebook' => 'url',
                 'email' => 'required|email:rfc,dns',
