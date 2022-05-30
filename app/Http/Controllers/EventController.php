@@ -41,17 +41,17 @@ class EventController extends Controller
     public function store(Request $request)
     {
 
-       /* $array = (array) $request->all();
+         $array = (array) $request->all();
 
         $validator = Validator::make(
             $array,
             [
-                'name' => 'required|string|regex:/^[A-Za-z0-9_]+$/',
-                'adress' => 'required|string|regex:/^[A-Za-z0-9_]+$/',
+                'name' => 'required|string|regex:/^[A-z0-9_\s]+$/',
+                'adress' => 'required|string|regex:/^[A-z0-9_\s]+$/',
                 'date' => 'required|date|after:tomorrow',
                 'association_id' => 'numeric',
                 'committee_id' => 'required|numeric',
-                'link' => 'url',
+                'link' => 'url|nullable',
                 'description' => 'alpha_num',
             ],
             [
@@ -67,38 +67,38 @@ class EventController extends Controller
             return response()->json(['messages' => $validator->messages()], 406);
         } else {*/
 
-            $new_event = [
-                'name' => $request->name,
-                'adress' => $request->adress,
-                'date' => $request->date,
-                'link' => $request->link,
-                'description' => $request->description,
-                'association_id' => $request->association_id,
-                'committee_id' => $request->committee_id
-            ];
+        $new_event = [
+            'name' => $request->name,
+            'adress' => $request->adress,
+            'date' => $request->date,
+            'link' => $request->link,
+            'description' => $request->description,
+            'association_id' => $request->association_id,
+            'committee_id' => $request->committee_id
+        ];
 
-            $event = Event::create($new_event);
+        $event = Event::create($new_event);
 
-            return response()->json([
-                'event' => $event
-            ]);
-       /* }*/
+        return response()->json([
+            'event' => $event
+        ]);
+         }
     }
 
     public function update(Request $request, $id)
     {
 
-        /*$array = (array) $request->all();
+        $array = (array) $request->all();
 
         $validator = Validator::make(
             $array,
             [
-               'name' => 'required|string|regex:/^[A-Za-z0-9_]+$/',
-                'adress' => 'required|string|regex:/^[A-Za-z0-9_]+$/',
+               'name' => 'required|string|regex:/^[A-z0-9_\s]+$/',
+                'adress' => 'required|string|regex:/^[A-z0-9_\s]+$/',
                 'date' => 'required|date|after:tomorrow',
                 'association_id' => 'numeric',
                 'committee_id' => 'required|numeric',
-                'link' => 'url',
+                'link' => 'url|nullable',
                 'description' => 'alpha_num',
             ],
             [
@@ -112,24 +112,24 @@ class EventController extends Controller
 
         if ($validator->fails()) {
             return response()->json(['messages' => $validator->messages()], 406);
-        } else {*/
+        } else {
 
-            $event = Event::findOrFail($id);
+        $event = Event::findOrFail($id);
 
-            $event->name = $request->name;
-            $event->adress = $request->adress;
-            $event->date = $request->date;
-            $event->link = $request->link;
-            $event->description = $request->description;
-            $event->association_id = $request->association_id;
-            $event->committee_id = $request->committee_id;
+        $event->name = $request->name;
+        $event->adress = $request->adress;
+        $event->date = $request->date;
+        $event->link = $request->link;
+        $event->description = $request->description;
+        $event->association_id = $request->association_id;
+        $event->committee_id = $request->committee_id;
 
-            $event->update();
+        $event->update();
 
-            return response()->json([
-                'event' => $event
-            ]);
-      /*  }*/
+        return response()->json([
+            'event' => $event
+        ]);
+         }
     }
 
     public function destroy(Request $request, $id)
