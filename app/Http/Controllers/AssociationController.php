@@ -57,6 +57,8 @@ class AssociationController extends Controller
             return response()->json($validator->messages(), 406);
         } else {
 
+
+
             $association = [
                 'name' => $request->nom,
                 'adress' => $request->adresse,
@@ -70,6 +72,14 @@ class AssociationController extends Controller
                 'longitude' => $request->longitude,
                 'committee_id' => $request->comiteId,
             ];
+
+            if ($request->adress_public === false) {
+                $association['adress_public'] = 0;
+            };
+    
+            if ($request->adress_public === true) {
+                $association['adress_public'] = 1;
+            };
 
 
             $newAssociation = Association::create($association);
@@ -176,9 +186,9 @@ class AssociationController extends Controller
         /*}*/
     }
 
-    public function destroy(Request $request, $id)
+    public function destroy(Request $request)
     {
-        $association = Association::findOrFail($id);
+        $association = Association::findOrFail($request->id);
 
         if ($association->accept === 0) {
 
@@ -206,10 +216,10 @@ class AssociationController extends Controller
         }
     }
 
-    public function accept(Request $request, $id)
+    public function accept(Request $request)
     {
 
-        $association = Association::findOrFail($id);
+        $association = Association::findOrFail($request->id);
 
         $association->accept = 1;
         $association->save();
@@ -226,6 +236,7 @@ class AssociationController extends Controller
 
         foreach ($associations as $item) {
             $item->accept = 1;
+            $item->save();
         }
 
         return response()->json([

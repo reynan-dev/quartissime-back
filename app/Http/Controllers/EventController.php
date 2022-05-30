@@ -132,11 +132,11 @@ class EventController extends Controller
       /*  }*/
     }
 
-    public function destroy(Request $request, $id)
+    public function destroy(Request $request)
     {
         $user = User::findOrFail($request->user_id);
 
-        $event = Event::findOrFail($id);
+        $event = Event::findOrFail($request->id);
 
         $validation_password = true;
 

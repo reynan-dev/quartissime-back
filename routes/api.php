@@ -71,7 +71,7 @@ Route::prefix('assoc')
         Route::delete('/delete/{id}', [\App\Http\Controllers\AssociationController::class, 'destroy'])
             ->name('associations.destroy');
 
-        Route::post('/accept/{id}', [\App\Http\Controllers\AssociationController::class, 'accept'])
+        Route::post('/accept', [\App\Http\Controllers\AssociationController::class, 'accept'])
             ->name('associations.accept');
 
         Route::post('/accept/all', [\App\Http\Controllers\AssociationController::class, 'acceptAll'])

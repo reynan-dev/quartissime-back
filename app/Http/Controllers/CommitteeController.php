@@ -37,18 +37,12 @@ class CommitteeController extends Controller
         array_push($committees, $committee);
 
         $association = Association::where('committee_id', $committee->id)->get();
-        $associations = [];
-
-        is_array($association) ? false : array_push($associations, $association);
+        is_array($association) ? $associations = array_push($associations, $association) : $associations = $association;
 
         $event = Event::where('committee_id', $committee->id)->get();
-        $events = [];
-
-        is_array($event) ? false : array_push($events, $event);
-
+        is_array($event) ? $events = array_push($events, $event) : $events = $event;
 
         $user = Auth::user();
-
 
         return response()->json([
             'committees' => $committees,
@@ -106,6 +100,15 @@ class CommitteeController extends Controller
             'latitude' => $request->latitude,
             'longitude' => $request->longitude,
         ];
+
+
+        if ($request->adress_public === false) {
+            $new_committee['adress_public'] = 0;
+        };
+
+        if ($request->adress_public === true) {
+            $new_committee['adress_public'] = 1;
+        };
 
         $committee = Committee::create($new_committee);
         /*
@@ -194,7 +197,7 @@ class CommitteeController extends Controller
     {
         $user = User::findOrFail($request->user_id);
 
-        $committee = Committee::findOrFail($id);
+        $committee = Committee::findOrFail($request->id);
 
         $validation_password = true;
 
