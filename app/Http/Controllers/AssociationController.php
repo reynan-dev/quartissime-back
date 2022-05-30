@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Committee;
-
 use App\Models\Association;
 use Illuminate\Http\Request;
 use App\Models\AssociationPhoto;
@@ -59,29 +57,28 @@ class AssociationController extends Controller
             return response()->json($validator->messages(), 406);
         } else {
 
-        $association = [
-            'name' => $request->nom,
-            'adress' => $request->adresse,
-            'adress_public' => $request->adressePublique,
-            'website' => $request->website,
-            'facebook' => $request->facebook,
-            'email' => $request->email,
-            'tel' => $request->tel,
-            'description' => $request->description,
-            'latitude' => $request->latitude,
-            'longitude' => $request->longitude,
-            'committee_id' => $request->comiteId,
-        ];
+            $association = [
+                'name' => $request->nom,
+                'adress' => $request->adresse,
+                'adress_public' => $request->adressePublique,
+                'website' => $request->website,
+                'facebook' => $request->facebook,
+                'email' => $request->email,
+                'tel' => $request->tel,
+                'description' => $request->description,
+                'latitude' => $request->latitude,
+                'longitude' => $request->longitude,
+                'committee_id' => $request->comiteId,
+            ];
 
 
-        $newAssociation = Association::create($association);
+            $newAssociation = Association::create($association);
 
-        return response()->json([
-            "message" => $newAssociation,
-            'association' => $newAssociation
-        ]);
-
-
+            return response()->json([
+                "message" => $newAssociation,
+                'association' => $newAssociation
+            ]);
+        }
         /*
         $photos = $request->file('photos');
 
