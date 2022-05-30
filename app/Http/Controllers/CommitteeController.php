@@ -55,13 +55,13 @@ class CommitteeController extends Controller
     public function store(Request $request)
     {
 
-        /*  $array = (array) $request->all();
+        $array = (array) $request->all();
 
         $validator = Validator::make(
             $array,
             [
-                'name' => 'required|string|regex:/^[A-Za-z0-9_]+$/',
-                'adress' => 'required|string|regex:/^[A-Za-z0-9_]+$/',
+                'name' => 'required|string|regex:/^[A-z0-9_\s\']+$/',
+                'adress' => 'required|string|regex:/^[A-z0-9_\s\']+$/',
                 'website' => 'required|url',
                 'facebook' => 'url',
                 'email' => 'required|email:rfc,dns',
@@ -125,22 +125,22 @@ class CommitteeController extends Controller
 
             $new_file = CommitteePhoto::create($file);*/
 
-        return response()->json([
-            'committee' => $committee,
-            // 'photo' => $new_file
-        ]);
-        /*  }*/
+            return response()->json([
+                'committee' => $committee,
+                // 'photo' => $new_file
+            ]);
+        }
     }
 
     public function update(Request $request, $id)
     {
-        /* $array = (array) $request->all();
+        $array = (array) $request->all();
 
         $validator = Validator::make(
             $array,
             [
-                'name' => 'required|string|regex:/^[A-Za-z0-9_]+$/',
-                'adress' => 'required|string|regex:/^[A-Za-z0-9_]+$/',
+                'name' => 'required|string|regex:/^[A-z0-9_\s\']+$/',
+                'adress' => 'required|string|regex:/^[A-z0-9_\s\']+$/',
                 'website' => 'required|url',
                 'facebook' => 'url',
                 'email' => 'required|email:rfc,dns',
@@ -163,34 +163,34 @@ class CommitteeController extends Controller
         if ($validator->fails()) {
             return response()->json(['messages' => $validator->messages()], 406);
         } else {
-*/
-        $committee = Committee::findOrFail($id);
 
-        if ($request->adress_public === false) {
-            $committee->adress_public = 0;
-        };
+            $committee = Committee::findOrFail($id);
 
-        if ($request->adress_public === true) {
-            $committee->adress_public = 1;
-        };
+            if ($request->adress_public === false) {
+                $committee->adress_public = 0;
+            };
 
-        $committee->name = $request->name;
-        $committee->adress =  $request->adress;
-        $committee->website =  $request->website;
-        $committee->facebook =  $request->facebook;
-        $committee->email =  $request->email;
-        $committee->tel =  $request->tel;
-        $committee->president_name =  $request->president_name;
-        $committee->description =  $request->description;
-        $committee->latitude = $request->latitude;
-        $committee->longitude =  $request->longitude;
+            if ($request->adress_public === true) {
+                $committee->adress_public = 1;
+            };
 
-        $committee->update();
+            $committee->name = $request->name;
+            $committee->adress =  $request->adress;
+            $committee->website =  $request->website;
+            $committee->facebook =  $request->facebook;
+            $committee->email =  $request->email;
+            $committee->tel =  $request->tel;
+            $committee->president_name =  $request->president_name;
+            $committee->description =  $request->description;
+            $committee->latitude = $request->latitude;
+            $committee->longitude =  $request->longitude;
 
-        return response()->json([
-            'committee' => $committee
-        ]);
-        /*  }*/
+            $committee->update();
+
+            return response()->json([
+                'committee' => $committee
+            ]);
+        }
     }
 
     public function destroy(Request $request, $id)
