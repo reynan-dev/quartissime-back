@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Association;
+use App\Models\Committee;
 use App\Models\Event;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
@@ -14,9 +15,12 @@ class EventController extends Controller
     public function index()
     {
         $events = Event::all();
+        $committees = Committee::all();
+
 
         return response()->json([
-            'events' => $events
+            'events' => $events,
+            'committees' => $committees
         ]);
     }
 
@@ -24,15 +28,20 @@ class EventController extends Controller
     {
         $event = Event::findOrFail($id);
 
+        $committee = Committee::findOrFail($event->committee_id);
+        $committees = [];
+        array_push($committees, $committee);
+
         return response()->json([
-            'event' => $event
+            'event' => $event,
+            'committees' => $committees
         ]);
     }
 
     public function store(Request $request)
     {
 
-        $array = (array) $request->all();
+       /* $array = (array) $request->all();
 
         $validator = Validator::make(
             $array,
@@ -40,6 +49,8 @@ class EventController extends Controller
                 'name' => 'required|string|regex:/^[A-Za-z0-9_]+$/',
                 'adress' => 'required|string|regex:/^[A-Za-z0-9_]+$/',
                 'date' => 'required|date|after:tomorrow',
+                'association_id' => 'numeric',
+                'committee_id' => 'required|numeric',
                 'link' => 'url',
                 'description' => 'alpha_num',
             ],
@@ -53,8 +64,8 @@ class EventController extends Controller
         );
 
         if ($validator->fails()) {
-            return response()->json($validator->messages(), 406);
-        } else {
+            return response()->json(['messages' => $validator->messages()], 406);
+        } else {*/
 
             $new_event = [
                 'name' => $request->name,
@@ -71,20 +82,22 @@ class EventController extends Controller
             return response()->json([
                 'event' => $event
             ]);
-        }
+       /* }*/
     }
 
     public function update(Request $request, $id)
     {
 
-        $array = (array) $request->all();
+        /*$array = (array) $request->all();
 
         $validator = Validator::make(
             $array,
             [
-                'name' => 'required|string|regex:/^[A-Za-z0-9_]+$/',
+               'name' => 'required|string|regex:/^[A-Za-z0-9_]+$/',
                 'adress' => 'required|string|regex:/^[A-Za-z0-9_]+$/',
                 'date' => 'required|date|after:tomorrow',
+                'association_id' => 'numeric',
+                'committee_id' => 'required|numeric',
                 'link' => 'url',
                 'description' => 'alpha_num',
             ],
@@ -98,8 +111,8 @@ class EventController extends Controller
         );
 
         if ($validator->fails()) {
-            return response()->json($validator->messages(), 406);
-        } else {
+            return response()->json(['messages' => $validator->messages()], 406);
+        } else {*/
 
             $event = Event::findOrFail($id);
 
@@ -116,8 +129,9 @@ class EventController extends Controller
             return response()->json([
                 'event' => $event
             ]);
-        }
+      /*  }*/
     }
+
     public function destroy(Request $request, $id)
     {
         $user = User::findOrFail($request->user_id);

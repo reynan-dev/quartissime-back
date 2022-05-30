@@ -9,14 +9,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Event extends Model
 {
 
-    protected $fillable = [
-        'name',
-        'date',
-        'adress',
-        'link',
-        'description',
-        'association_id',
-    ];
+    protected $guarded =['id'];
+
 
     use HasFactory;
 
