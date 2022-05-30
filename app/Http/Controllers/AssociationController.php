@@ -37,13 +37,14 @@ class AssociationController extends Controller
         $validator = Validator::make(
             $array,
             [
-                'nom' => 'min:3|max:255|string',
-                'adresse' => 'required|string',
-                'website' => 'url',
-                'email' => 'required|email:rfc',
-                'tel' => 'regex:/(0)[0-9]{9}/',
-                'description' => 'string',
-                'comiteId' => 'required|integer',
+                'name' => 'required|string|regex:/^[A-z0-9_\s\']+$/',
+                'adress' => 'required|string|regex:/^[A-z0-9_\s\']+$/',
+                'website' => 'required|url',
+                'facebook' => 'url|nullable',
+                'email' => 'required|email:rfc,dns',
+                'tel' => 'regex:/(0)[0-9]{9}/|nullable',
+                'description' => 'regex:/^[A-z0-9_\s\']+$/|nullable',
+                'committee_id' => 'required|integer',
             ],
             [
                 'name' => 'Le nom est invalide.',
@@ -57,12 +58,10 @@ class AssociationController extends Controller
             return response()->json($validator->messages(), 406);
         } else {
 
-
-
-            $association = [
-                'name' => $request->nom,
-                'adress' => $request->adresse,
-                'adress_public' => $request->adressePublique,
+            $new_association = [
+                'name' => $request->name,
+                'adress' => $request->adress,
+                'adress_public' => $request->adress_public,
                 'website' => $request->website,
                 'facebook' => $request->facebook,
                 'email' => $request->email,
@@ -70,7 +69,7 @@ class AssociationController extends Controller
                 'description' => $request->description,
                 'latitude' => $request->latitude,
                 'longitude' => $request->longitude,
-                'committee_id' => $request->comiteId,
+                'committee_id' => $request->committee_id,
             ];
 
             if ($request->adress_public === false) {
@@ -82,11 +81,11 @@ class AssociationController extends Controller
             };
 
 
-            $newAssociation = Association::create($association);
+            $association = Association::create($new_association);
 
             return response()->json([
-                "message" => $newAssociation,
-                'association' => $newAssociation
+                "message" => $association,
+                'association' => $association
             ]);
         }
         /*
@@ -132,18 +131,19 @@ class AssociationController extends Controller
     public function update(Request $request, $id)
     {
 
-        /* $array = (array) $request->all();
+         $array = (array) $request->all();
 
         $validator = Validator::make(
             $array,
             [
-                'name' => 'required|string|alpha_num',
-                'adress' => 'required|string|alpha_num',
+                'name' => 'required|string|regex:/^[A-z0-9_\s\']+$/',
+                'adress' => 'required|string|regex:/^[A-z0-9_\s\']+$/',
                 'website' => 'required|url',
-                'facebook' => 'url',
+                'facebook' => 'url|nullable',
                 'email' => 'required|email:rfc,dns',
-                'tel' => 'regex:/(0)[0-9]{9}/',
-                'description' => 'string',
+                'tel' => 'regex:/(0)[0-9]{9}/|nullable',
+                'description' => 'regex:/^[A-z0-9_\s\']+$/|nullable',
+                'committee_id' => 'required|integer',
             ],
             [
                 'name' => 'Le nom est invalide.',
@@ -159,7 +159,7 @@ class AssociationController extends Controller
         if ($validator->fails()) {
             return response()->json(['messages' => $validator->messages()], 406);
         } else {
-*/
+
         $association = Association::findOrFail($id);
 
         if ($request->adress_public === false) {
@@ -183,10 +183,10 @@ class AssociationController extends Controller
         return response()->json([
             'association' => $association
         ]);
-        /*}*/
+        }
     }
 
-    public function destroy(Request $request)
+    public function destroy(Request $request, $id)
     {
         $association = Association::findOrFail($request->id);
 

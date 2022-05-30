@@ -21,12 +21,14 @@ class CommitteeController extends Controller
         $events = Event::all();
         $committees = Committee::all();
         $user = Auth::user();
+        $users = User::all();
 
         return response()->json([
             'committees' => $committees,
             'associations' => $associations,
             'events' => $events,
-            'user' => $user
+            'user' => $user,
+            'users' => $users
         ]);
     }
 
@@ -63,10 +65,10 @@ class CommitteeController extends Controller
                 'name' => 'required|string|regex:/^[A-z0-9_\s\']+$/',
                 'adress' => 'required|string|regex:/^[A-z0-9_\s\']+$/',
                 'website' => 'required|url',
-                'facebook' => 'url',
+                'facebook' => 'url|nullable',
                 'email' => 'required|email:rfc,dns',
-                'tel' => 'regex:/(0)[0-9]{9}/',
-                'president_name' => 'required|string|alpha',
+                'tel' => 'regex:/(0)[0-9]{9}/|nullable',
+                'president_name' => 'required|string|regex:/^[A-z0-9_\s\']+$/',
                 'description' => 'alpha_num',
                 'photo' => 'image'
             ],
@@ -142,11 +144,12 @@ class CommitteeController extends Controller
                 'name' => 'required|string|regex:/^[A-z0-9_\s\']+$/',
                 'adress' => 'required|string|regex:/^[A-z0-9_\s\']+$/',
                 'website' => 'required|url',
-                'facebook' => 'url',
+                'facebook' => 'url|nullable',
                 'email' => 'required|email:rfc,dns',
-                'tel' => 'regex:/(0)[0-9]{9}/',
-                'president_name' => 'required|string|alpha',
-                'description' => 'string',
+                'tel' => 'regex:/(0)[0-9]{9}/|nullable',
+                'president_name' => 'required|string|regex:/^[A-z0-9_\s\']+$/',
+                'description' => 'nullable|regex:/^[A-z0-9_\s\']+$/',
+                'photo' => 'image'
             ],
             [
                 'name' => 'Le nom est invalide.',
@@ -157,6 +160,7 @@ class CommitteeController extends Controller
                 'tel' => "Le tel est invalide.",
                 'president_name' => "Le nom du président est invalide.",
                 'description' => "La description est invalide.",
+                'photo' => "Le format d'image est pas accepté.",
             ]
         );
 

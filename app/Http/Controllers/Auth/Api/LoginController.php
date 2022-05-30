@@ -12,65 +12,34 @@ class LoginController extends Controller
     {
         $array = (array) $request->all();
 
-        if (!$array['email']) {
-            $validator = Validator::make(
-                $array,
-                [
-                    'identifiant' => 'alpha|min:3|max:255',
-                    'password' => 'required|alpha_dash|min:8',
-                ],
-                [
-                    'identifiant' => 'Identifiant invalide, il fault mettre un identifiant valide.',
-                    'password' => 'Le mot de passe doit contenir des chiffres, des lettres et des caractères spéciaux.'
-                ]
-            );
+        $validator = Validator::make(
+            $array,
+            [
+                'email' => 'required|email:rfc,dns',
+                'password' => 'required|alpha_dash|min:8',
+            ],
+            [
+                'email' => 'Email invalide, il fault mettre un email valide.',
+                'password' => 'Le mot de passe doit contenir des chiffres, des lettres et des caractères spéciaux.'
+            ]
+        );
 
-            if ($validator->fails()) {
-                return response()->json($validator->messages(), 406);
-            } else {
-
-                $credentials = $request->only('identifiant', 'password');
-
-                if (!auth()->attempt($credentials)) {
-                    return response()->json(['message' => 'Invalid Credentials'], 401);
-                }
-
-                $token = auth()->user()->createToken('auth_token');
-
-                return response()->json([
-                    'token' => $token->plainTextToken
-                ]);
-            };
+        if ($validator->fails()) {
+            return response()->json($validator->messages(), 406);
         } else {
-            $validator = Validator::make(
-                $array,
-                [
-                    'email' => 'required|email:rfc,dns',
-                    'password' => 'required|alpha_dash|min:8',
-                ],
-                [
-                    'email' => 'Email invalide, il fault mettre un email valide.',
-                    'password' => 'Le mot de passe doit contenir des chiffres, des lettres et des caractères spéciaux.'
-                ]
-            );
 
-            if ($validator->fails()) {
-                return response()->json($validator->messages(), 406);
-            } else {
+            $credentials = $request->only('email', 'password');
 
-                $credentials = $request->only('email', 'password');
+            if (!auth()->attempt($credentials)) {
+                return response()->json(['message' => 'Invalid Credentials'], 401);
+            }
 
-                if (!auth()->attempt($credentials)) {
-                    return response()->json(['message' => 'Invalid Credentials'], 401);
-                }
+            $token = auth()->user()->createToken('auth_token');
 
-                $token = auth()->user()->createToken('auth_token');
-
-                return response()->json([
-                    'token' => $token->plainTextToken
-                ]);
-            };
-        }
+            return response()->json([
+                'token' => $token->plainTextToken
+            ]);
+        };
     }
 
     public function logout()
