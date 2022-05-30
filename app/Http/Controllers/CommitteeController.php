@@ -199,7 +199,7 @@ class CommitteeController extends Controller
 
     public function destroy(Request $request, $id)
     {
-        $user = User::findOrFail($request->user_id);
+        $user = Auth::user();
 
         $committee = Committee::findOrFail($request->id);
 
