@@ -36,15 +36,13 @@ class CommitteeController extends Controller
         $committees = [];
         array_push($committees, $committee);
 
-        $association = Association::where('committee_id', $committee->id)->get();
-        $associations = [];
+        $associations = Association::where('committee_id', $committee->id)->get();
 
-        is_array($association) ? false : array_push($associations, $association);
+        is_array($associations) ? $associations = array_push($associations, $associations) : false;
 
-        $event = Event::where('committee_id', $committee->id)->get();
-        $events = [];
+        $events = Event::where('committee_id', $committee->id)->get();
 
-        is_array($event) ? false : array_push($events, $event);
+        is_array($events) ? $events = array_push($events, $events) : false;
 
 
         $user = Auth::user();

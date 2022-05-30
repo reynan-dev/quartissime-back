@@ -6,8 +6,6 @@ use App\Models\Committee;
 
 use App\Models\Association;
 use Illuminate\Http\Request;
-use App\Models\AssociationPhoto;
-use App\Models\Committee;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 
@@ -81,7 +79,7 @@ class AssociationController extends Controller
             'association' => $newAssociation
         ]);
 
-
+    }
         /*
         $photos = $request->file('photos');
 
@@ -209,10 +207,10 @@ class AssociationController extends Controller
         }
     }
 
-    public function accept(Request $request, $id)
+    public function accept(Request $request)
     {
 
-        $association = Association::findOrFail($id);
+        $association = Association::findOrFail($request->id);
 
         $association->accept = 1;
         $association->save();
@@ -226,6 +224,8 @@ class AssociationController extends Controller
     public function acceptAll(Request $request)
     {
         $associations = Association::where('committee_id', $request->committee_id)->get();
+
+        dd($associations);
 
         foreach ($associations as $item) {
             $item->accept = 1;
