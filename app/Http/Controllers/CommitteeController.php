@@ -85,7 +85,7 @@ class CommitteeController extends Controller
 
         if ($validator->fails()) {
             return response()->json(['messages' => $validator->messages()], 406);
-        } else {*/
+        } else {
 
         $new_committee = [
             'name' => $request->name,
