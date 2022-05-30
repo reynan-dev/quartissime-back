@@ -88,7 +88,7 @@ class EventController extends Controller
     public function update(Request $request, $id)
     {
 
-        /*$array = (array) $request->all();
+        $array = (array) $request->all();
 
         $validator = Validator::make(
             $array,
@@ -112,7 +112,7 @@ class EventController extends Controller
 
         if ($validator->fails()) {
             return response()->json(['messages' => $validator->messages()], 406);
-        } else {*/
+        } else {
 
             $event = Event::findOrFail($id);
 
@@ -129,7 +129,7 @@ class EventController extends Controller
             return response()->json([
                 'event' => $event
             ]);
-      /*  }*/
+        }
     }
 
     public function destroy(Request $request, $id)
