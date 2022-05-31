@@ -41,102 +41,102 @@ class EventController extends Controller
     public function store(Request $request)
     {
 
-       /* $array = (array) $request->all();
+         $array = (array) $request->all();
 
         $validator = Validator::make(
             $array,
             [
-                'name' => 'required|string|regex:/^[A-Za-z0-9_]+$/',
-                'adress' => 'required|string|regex:/^[A-Za-z0-9_]+$/',
+                'name' => 'required|string|regex:/^[A-z0-9_\s\']+$/',
+                'adress' => 'required|string|regex:/^[A-z0-9_\s\']+$/',
                 'date' => 'required|date|after:tomorrow',
-                'association_id' => 'numeric',
+                'association_id' => 'numeric|nullable',
                 'committee_id' => 'required|numeric',
-                'link' => 'url',
-                'description' => 'alpha_num',
+                'link' => 'url|nullable',
+                'description' => 'nullable|regex:/^[A-z0-9_\s\']+$/',
             ],
             [
                 'name' => 'Le nom est invalide.',
                 'adress' => 'Le adress est invalide.',
                 'date' => 'La date est invalide.',
                 'link' => "Link est invalide.",
-                'description' => "La description est invalide.",
+                'description' => 'nullable|regex:/^[A-z0-9_\s\']+$/',
             ]
         );
 
         if ($validator->fails()) {
             return response()->json(['messages' => $validator->messages()], 406);
-        } else {*/
+        } else {
 
-            $new_event = [
-                'name' => $request->name,
-                'adress' => $request->adress,
-                'date' => $request->date,
-                'link' => $request->link,
-                'description' => $request->description,
-                'association_id' => $request->association_id,
-                'committee_id' => $request->committee_id
-            ];
+        $new_event = [
+            'name' => $request->name,
+            'adress' => $request->adress,
+            'date' => $request->date,
+            'link' => $request->link,
+            'description' => $request->description,
+            'association_id' => $request->association_id,
+            'committee_id' => $request->committee_id
+        ];
 
-            $event = Event::create($new_event);
+        $event = Event::create($new_event);
 
-            return response()->json([
-                'event' => $event
-            ]);
-       /* }*/
+        return response()->json([
+            'event' => $event
+        ]);
+         }
     }
 
     public function update(Request $request, $id)
     {
 
-        /*$array = (array) $request->all();
+        $array = (array) $request->all();
 
         $validator = Validator::make(
             $array,
             [
-               'name' => 'required|string|regex:/^[A-Za-z0-9_]+$/',
-                'adress' => 'required|string|regex:/^[A-Za-z0-9_]+$/',
+               'name' => 'required|string|regex:/^[A-z0-9_\s\']+$/',
+                'adress' => 'required|string|regex:/^[A-z0-9_\s\']+$/',
                 'date' => 'required|date|after:tomorrow',
-                'association_id' => 'numeric',
+                'association_id' => 'numeric|nullable',
                 'committee_id' => 'required|numeric',
-                'link' => 'url',
-                'description' => 'alpha_num',
+                'link' => 'url|nullable',
+                'description' => 'nullable|regex:/^[A-z0-9_\s\']+$/',
             ],
             [
                 'name' => 'Le nom est invalide.',
                 'adress' => 'Le adress est invalide.',
                 'date' => 'La date est invalide.',
                 'link' => "Link est invalide.",
-                'description' => "La description est invalide.",
+                'description' => 'nullable|regex:/^[A-z0-9_\s\']+$/',
             ]
         );
 
         if ($validator->fails()) {
             return response()->json(['messages' => $validator->messages()], 406);
-        } else {*/
+        } else {
 
-            $event = Event::findOrFail($id);
+        $event = Event::findOrFail($id);
 
-            $event->name = $request->name;
-            $event->adress = $request->adress;
-            $event->date = $request->date;
-            $event->link = $request->link;
-            $event->description = $request->description;
-            $event->association_id = $request->association_id;
-            $event->committee_id = $request->committee_id;
+        $event->name = $request->name;
+        $event->adress = $request->adress;
+        $event->date = $request->date;
+        $event->link = $request->link;
+        $event->description = $request->description;
+        $event->association_id = $request->association_id;
+        $event->committee_id = $request->committee_id;
 
-            $event->update();
+        $event->update();
 
-            return response()->json([
-                'event' => $event
-            ]);
-      /*  }*/
+        return response()->json([
+            'event' => $event
+        ]);
+         }
     }
 
-    public function destroy(Request $request, $id)
+    public function destroy(Request $request)
     {
         $user = User::findOrFail($request->user_id);
 
-        $event = Event::findOrFail($id);
+        $event = Event::findOrFail($request->id);
 
         $validation_password = true;
 

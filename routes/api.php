@@ -39,7 +39,11 @@ Route::prefix('auth')
         Route::post('/login', [\App\Http\Controllers\Auth\Api\LoginController::class, 'login']);
         Route::post('/logout', [\App\Http\Controllers\Auth\Api\LoginController::class, 'logout'])
             ->middleware('auth:sanctum');
-        Route::middleware('auth:sanctum')->post('/register', [\App\Http\Controllers\Auth\Api\RegisterController::class, 'register']);
+        Route::post('/register', [\App\Http\Controllers\Auth\Api\RegisterController::class, 'register']);
+
+        Route::get('/show/{id}', [\App\Http\Controllers\Auth\Api\LoginController::class, 'show'])->middleware('auth:sanctum');
+        Route::put('/edit/{id}', [\App\Http\Controllers\Auth\Api\LoginController::class, 'update'])->middleware('auth:sanctum');
+        Route::put('/delete/{id}', [\App\Http\Controllers\Auth\Api\LoginController::class, 'destroy'])->middleware('auth:sanctum');
     });
 
 Route::prefix('dashboard')
@@ -73,7 +77,7 @@ Route::prefix('assoc')
         Route::delete('/delete/{id}', [\App\Http\Controllers\AssociationController::class, 'destroy'])
             ->name('associations.destroy');
 
-        Route::post('/accept/{id}', [\App\Http\Controllers\AssociationController::class, 'accept'])
+        Route::post('/accept', [\App\Http\Controllers\AssociationController::class, 'accept'])
             ->name('associations.accept');
 
         Route::post('/accept/all', [\App\Http\Controllers\AssociationController::class, 'acceptAll'])
