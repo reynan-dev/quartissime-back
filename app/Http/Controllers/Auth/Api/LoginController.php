@@ -19,7 +19,7 @@ class LoginController extends Controller
             $array,
             [
                 'email' => 'required|email:rfc,dns',
-                'password' => 'required|alpha_dash|min:8',
+                'password' => 'required|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/',
             ],
             [
                 'email' => 'Email invalide, il fault mettre un email valide.',
@@ -102,7 +102,7 @@ class LoginController extends Controller
 
                 if ($request->password != null) {
                     $password_hash = Hash::make($request->password);
-                    $user->password = $password_hash ;
+                    $user->password = $password_hash;
                 }
 
                 $user->save();
@@ -133,6 +133,5 @@ class LoginController extends Controller
         return response()->json([
             'message' => 'Delete successfull'
         ]);
-
     }
 }
