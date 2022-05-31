@@ -202,10 +202,6 @@ class AssociationController extends Controller
 
             $validation_password = true;
 
-            if (password_verify($request->input('password'), $user->password) !== true) {
-                $validation_password = false;
-            };
-
             if ($validation_password === true) {
                 $association->delete();
             };

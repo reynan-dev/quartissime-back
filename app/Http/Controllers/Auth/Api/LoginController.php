@@ -122,10 +122,6 @@ class LoginController extends Controller
 
         $validation_password = true;
 
-        if (password_verify($request->password, $auth_user->password) !== true) {
-            $validation_password = false;
-        };
-
         if ($validation_password === true) {
             $user->delete();
         };
