@@ -46,26 +46,26 @@ class EventController extends Controller
         $validator = Validator::make(
             $array,
             [
-                'name' => 'required|string|regex:/^[A-z0-9_\s]+$/',
-                'adress' => 'required|string|regex:/^[A-z0-9_\s]+$/',
+                'name' => 'required|string|regex:/^[A-z0-9_\s\']+$/',
+                'adress' => 'required|string|regex:/^[A-z0-9_\s\']+$/',
                 'date' => 'required|date|after:tomorrow',
-                'association_id' => 'numeric',
+                'association_id' => 'numeric|nullable',
                 'committee_id' => 'required|numeric',
                 'link' => 'url|nullable',
-                'description' => 'alpha_num',
+                'description' => 'nullable|regex:/^[A-z0-9_\s\']+$/',
             ],
             [
                 'name' => 'Le nom est invalide.',
                 'adress' => 'Le adress est invalide.',
                 'date' => 'La date est invalide.',
                 'link' => "Link est invalide.",
-                'description' => "La description est invalide.",
+                'description' => 'nullable|regex:/^[A-z0-9_\s\']+$/',
             ]
         );
 
         if ($validator->fails()) {
             return response()->json(['messages' => $validator->messages()], 406);
-        } else {*/
+        } else {
 
         $new_event = [
             'name' => $request->name,
@@ -93,20 +93,20 @@ class EventController extends Controller
         $validator = Validator::make(
             $array,
             [
-               'name' => 'required|string|regex:/^[A-z0-9_\s]+$/',
-                'adress' => 'required|string|regex:/^[A-z0-9_\s]+$/',
+               'name' => 'required|string|regex:/^[A-z0-9_\s\']+$/',
+                'adress' => 'required|string|regex:/^[A-z0-9_\s\']+$/',
                 'date' => 'required|date|after:tomorrow',
-                'association_id' => 'numeric',
+                'association_id' => 'numeric|nullable',
                 'committee_id' => 'required|numeric',
                 'link' => 'url|nullable',
-                'description' => 'alpha_num',
+                'description' => 'nullable|regex:/^[A-z0-9_\s\']+$/',
             ],
             [
                 'name' => 'Le nom est invalide.',
                 'adress' => 'Le adress est invalide.',
                 'date' => 'La date est invalide.',
                 'link' => "Link est invalide.",
-                'description' => "La description est invalide.",
+                'description' => 'nullable|regex:/^[A-z0-9_\s\']+$/',
             ]
         );
 
@@ -132,11 +132,11 @@ class EventController extends Controller
          }
     }
 
-    public function destroy(Request $request, $id)
+    public function destroy(Request $request)
     {
         $user = User::findOrFail($request->user_id);
 
-        $event = Event::findOrFail($id);
+        $event = Event::findOrFail($request->id);
 
         $validation_password = true;
 
