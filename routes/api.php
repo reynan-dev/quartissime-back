@@ -48,6 +48,8 @@ Route::prefix('auth')
 
 Route::prefix('dashboard')
     ->middleware('auth:sanctum')
+
+    
     ->group(function () {
         /* Routes du dashboard */
         Route::get('/', [\App\Http\Controllers\CommitteeController::class, 'index'])
@@ -81,6 +83,10 @@ Route::prefix('assoc')
         Route::post('/accept/all', [\App\Http\Controllers\AssociationController::class, 'acceptAll'])
             ->name('associations.acceptAll');
     });
+
+Route::prefix('upload')->middleware('auth:sanctum')->group(function () {
+    Route::post('submit', [\App\Http\Controllers\FileController::class, 'formSubmit']);
+});
 
 Route::prefix('comite')
     ->middleware('auth:sanctum')
