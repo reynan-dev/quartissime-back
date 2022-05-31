@@ -21,7 +21,7 @@ class RegisterController extends Controller
                 'name' => 'required|string|regex:/^[A-z0-9_\s\']+$/',
                 'email' => 'required|email:rfc,dns',
                 'password' => 'required|regex:/(?=^.{8,}$)(?=.*\\d)(?=.*\\W+)(?=.*[A-Z])(?=.*[a-z])(?!.*\\n).*$/',
-                'administrator' => 'min:1|max:1|numeric'
+                'administrator' => 'numeric'
             ],
             [
                 'name' => 'Le format du nom est invalide.',

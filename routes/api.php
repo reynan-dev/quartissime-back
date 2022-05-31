@@ -78,12 +78,13 @@ Route::prefix('assoc')
         Route::post('/accept', [\App\Http\Controllers\AssociationController::class, 'accept'])
             ->name('associations.accept');
 
-Route::prefix('upload')->middleware('auth:sanctum')->group(function () {
-    Route::post('submit', [\App\Http\Controllers\FileController::class, 'formSubmit']);
-});
         Route::post('/accept/all', [\App\Http\Controllers\AssociationController::class, 'acceptAll'])
             ->name('associations.acceptAll');
     });
+
+Route::prefix('upload')->middleware('auth:sanctum')->group(function () {
+    Route::post('submit', [\App\Http\Controllers\FileController::class, 'formSubmit']);
+});
 
 Route::prefix('comite')
     ->middleware('auth:sanctum')
