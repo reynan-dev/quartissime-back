@@ -19,7 +19,6 @@ class LoginController extends Controller
             $array,
             [
                 'email' => 'required|email:rfc,dns',
-                'password' => 'required|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/',
             ],
             [
                 'email' => 'Email invalide, il fault mettre un email valide.',

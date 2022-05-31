@@ -43,7 +43,7 @@ Route::prefix('auth')
 
         Route::get('/show/{id}', [\App\Http\Controllers\Auth\Api\LoginController::class, 'show'])->middleware('auth:sanctum');
         Route::put('/edit/{id}', [\App\Http\Controllers\Auth\Api\LoginController::class, 'update'])->middleware('auth:sanctum');
-        Route::put('/delete/{id}', [\App\Http\Controllers\Auth\Api\LoginController::class, 'destroy'])->middleware('auth:sanctum');
+        Route::delete('/delete/{id}', [\App\Http\Controllers\Auth\Api\LoginController::class, 'destroy'])->middleware('auth:sanctum');
     });
 
 Route::prefix('dashboard')
