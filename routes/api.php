@@ -39,11 +39,13 @@ Route::prefix('auth')
         Route::post('/login', [\App\Http\Controllers\Auth\Api\LoginController::class, 'login']);
         Route::post('/logout', [\App\Http\Controllers\Auth\Api\LoginController::class, 'logout'])
             ->middleware('auth:sanctum');
-        Route::post('/register', [\App\Http\Controllers\Auth\Api\RegisterController::class, 'register']);
+        Route::middleware('auth:sanctum')->post('/register', [\App\Http\Controllers\Auth\Api\RegisterController::class, 'register']);
     });
 
 Route::prefix('dashboard')
     ->middleware('auth:sanctum')
+
+    
     ->group(function () {
         /* Routes du dashboard */
         Route::get('/', [\App\Http\Controllers\CommitteeController::class, 'index'])
