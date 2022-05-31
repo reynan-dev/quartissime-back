@@ -20,7 +20,7 @@ class RegisterController extends Controller
             [
                 'name' => 'required|string|regex:/^[A-z0-9_\s\']+$/',
                 'email' => 'required|email:rfc,dns',
-                'password' => 'required|regex:/(?=^.{8,}$)(?=.*\\d)(?=.*\\W+)(?=.*[A-Z])(?=.*[a-z])(?!.*\\n).*$/',
+                'password' => 'required|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/',
                 'administrator' => 'numeric'
             ],
             [
@@ -42,7 +42,7 @@ class RegisterController extends Controller
 
         if ($data['administrator'] === 0) {
             $committee_user = [
-                'committee_id'=> $request->committee_id,
+                'committee_id' => $request->committee_id,
                 'user_id' => $user->id,
             ];
 

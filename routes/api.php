@@ -48,6 +48,8 @@ Route::prefix('auth')
 
 Route::prefix('dashboard')
     ->middleware('auth:sanctum')
+
+    
     ->group(function () {
         /* Routes du dashboard */
         Route::get('/', [\App\Http\Controllers\CommitteeController::class, 'index'])
